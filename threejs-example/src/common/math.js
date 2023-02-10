@@ -2,8 +2,8 @@
 export const easings = {
   linear: (percentage) => percentage,
   'ease-in': (percentage) => percentage ** 2,
-  'ease-out': (percentage) => -1 * percentage ** 2 + 2 * percentage
-};
+  'ease-out': (percentage) => -1 * percentage ** 2 + 2 * percentage,
+}
 
 /**
  * 插值函数变化曲线（近似）
@@ -14,26 +14,26 @@ export const easings = {
  * @return {numbers} 插值数据
  */
 
-export function interpolate({ start, end, number, type = 'ease-out' }) {
-  const numbers = new Array(0);
-  const distance = end - start;
-  const step = distance / number;
-  const compute = easings[type];
+export function interpolate({start, end, number, type = 'ease-out'}) {
+  const numbers = new Array(0)
+  const distance = end - start
+  const step = distance / number
+  const compute = easings[type]
 
   if (step === 0) {
-    return new Array(number).fill(start);
+    return new Array(number).fill(start)
   }
 
   for (let i = start; start < end ? i <= end : i >= end; i += step) {
-    const percentage = (i - start) / distance;
-    const coefficient = compute(percentage);
+    const percentage = (i - start) / distance
+    const coefficient = compute(percentage)
 
     if (numbers.length < number) {
-      numbers.push(start + coefficient * distance);
+      numbers.push(start + coefficient * distance)
     }
   }
 
-  return numbers;
+  return numbers
 }
 
 /**
@@ -45,9 +45,9 @@ export function interpolate({ start, end, number, type = 'ease-out' }) {
 export function increment(array) {
   return array.map((number, index) => {
     if (index === 0) {
-      return number;
+      return number
     } else {
-      return array[index] - array[index - 1];
+      return array[index] - array[index - 1]
     }
-  });
+  })
 }

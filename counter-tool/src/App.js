@@ -1,30 +1,27 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Form, Row} from 'react-bootstrap';
-import './App.css';
+import React, {useEffect, useState} from 'react'
+import {Button, Form, Row} from 'react-bootstrap'
+import './App.css'
 
 function App() {
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
+  const [count1, setCount1] = useState(0)
+  const [count2, setCount2] = useState(0)
 
-  useEffect(
-    () => {
-      const listener = ({key}) => {
-        console.log(key);
-        if (key === 'a' || key === 'A') {
-          setCount1(count1 + 1);
-        } else if (key === 's' || key === 'S') {
-          setCount2(count2 + 1);
-        } else if (key === 'z' || key === 'Z') {
-          setCount1(count1 === 0 ? 0 : count1 - 1);
-        } else if (key === 'x' || key === 'X') {
-          setCount2(count2 === 0 ? 0 : count2 - 1);
-        }
-      };
-      document.addEventListener('keypress', listener);
-      return () => document.removeEventListener('keypress', listener);
-    },
-    [count1, count2]
-  );
+  useEffect(() => {
+    const listener = ({key}) => {
+      console.log(key)
+      if (key === 'a' || key === 'A') {
+        setCount1(count1 + 1)
+      } else if (key === 's' || key === 'S') {
+        setCount2(count2 + 1)
+      } else if (key === 'z' || key === 'Z') {
+        setCount1(count1 === 0 ? 0 : count1 - 1)
+      } else if (key === 'x' || key === 'X') {
+        setCount2(count2 === 0 ? 0 : count2 - 1)
+      }
+    }
+    document.addEventListener('keypress', listener)
+    return () => document.removeEventListener('keypress', listener)
+  }, [count1, count2])
 
   return (
     <div className="App">
@@ -44,7 +41,7 @@ function App() {
         </Form>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

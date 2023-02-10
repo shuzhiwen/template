@@ -1,5 +1,5 @@
-import React from "react";
-import { hydrate } from "react-dom";
-import { App } from "./page";
+import React from 'react'
+import {hydrate} from 'react-dom'
+import {App} from './page'
 
-hydrate(<App />, document.getElementById("ssr-container"));
+hydrate(<App />, document.getElementById('ssr-container'))

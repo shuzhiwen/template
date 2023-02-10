@@ -1,4 +1,4 @@
-export function template(content = "") {
+export function template(content = '') {
   return `
     <html lang="en">
       <head>
@@ -14,5 +14,5 @@ export function template(content = "") {
         <script src="client.js"></script>
       </body>
     </html>
-  `;
+  `
 }
