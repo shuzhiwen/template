@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "types": ["node"],
+    "target": "ESNext",
+    "module": "NodeNext",
+    "lib": ["es5", "es6", "ESNext"],
+    "moduleResolution": "node",
+    "allowJs": true,
+    "alwaysStrict": true,
+    "declaration": false,
+    "esModuleInterop": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "pretty": true,
+    "strict": true
+  },
+  "exclude": ["node_modules", "dist"]
+}
