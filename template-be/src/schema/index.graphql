@@ -1,0 +1,19 @@
+scalar Date
+
+type Library {
+  branch: String!
+  books: [Book!]
+}
+
+type Book {
+  title: String!
+  author: Author!
+}
+
+type Author {
+  name: String!
+}
+
+type Query {
+  libraries: [Library]
+}

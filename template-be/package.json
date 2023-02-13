@@ -3,19 +3,28 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "yarn tsc && node ./dist/index.js"
+    "dev": "yarn tsc && node ./dist/index.js",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
     "@as-integrations/koa": "^0.2.1",
+    "@graphql-tools/schema": "^9.0.16",
     "@koa/cors": "^4.0.0",
+    "@types/ws": "^8.5.4",
     "graphql": "^16.6.0",
+    "graphql-ws": "^5.11.3",
     "koa": "^2.14.1",
     "koa-bodyparser": "^4.3.0",
     "koa-jwt": "^4.0.4",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "ws": "^8.12.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.0.0",
+    "@graphql-codegen/typescript": "^3.0.0",
+    "@graphql-codegen/typescript-resolvers": "^3.0.0",
+    "@graphql-tools/mock": "^8.7.18",
     "@types/koa": "^2.13.5",
     "@types/koa-bodyparser": "^4.3.10",
     "@types/koa__cors": "^3.3.0",
