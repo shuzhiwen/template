@@ -14,8 +14,8 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  Date: any
-  Void: any
+  Date: number
+  Void: undefined
 }
 
 export type HelloQueryVariables = Exact<{[key: string]: never}>

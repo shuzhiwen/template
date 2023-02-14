@@ -5,6 +5,9 @@ documents:
 config:
   enumsAsTypes: true
   onlyOperationTypes: true
+  scalars:
+    Void: undefined
+    Date: number
 generates:
   src/generated/schema.graphql:
     plugins:
