@@ -1,13 +1,16 @@
-# This configuration file tells GraphQL Code Generator how
-# to generate types based on our schema.
-schema: './src/schema/index.graphql'
+schema:
+  - './src/schema/index.graphql'
 generates:
-  # Specify where our generated types should live.
-  ./src/generated/codegen.ts:
+  src/generated/codegen.ts:
     plugins:
+      - add:
+          content: '/* eslint-disable */'
+          placement: 'prepend'
       - 'typescript'
       - 'typescript-resolvers'
     config:
       useIndexSignature: true
-      # More on this below!
       contextType: 'ApolloContext'
+hooks:
+  afterAllFileWrite:
+    - prettier --write

@@ -2,13 +2,13 @@ import ReactDOM from 'react-dom'
 import React, {Suspense} from 'react'
 import {Switch, Route} from 'react-router'
 import {BrowserRouter} from 'react-router-dom'
-import {Box} from '@mui/system'
+import {ApolloProvider} from './context/apollo'
 import {Entry} from './pages'
 import './index.css'
 
-function App() {
-  return (
-    <Box>
+ReactDOM.render(
+  <React.StrictMode>
+    <ApolloProvider>
       <BrowserRouter>
         <Switch>
           <Suspense fallback={<div className="m-center">加载中...</div>}>
@@ -16,13 +16,7 @@ function App() {
           </Suspense>
         </Switch>
       </BrowserRouter>
-    </Box>
-  )
-}
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

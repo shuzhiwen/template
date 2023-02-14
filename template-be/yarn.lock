@@ -674,6 +674,14 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@graphql-codegen/add@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/add/-/add-4.0.0.tgz#854325044bf210bf9fd8dabb16a9178f846f807c"
+  integrity sha512-AxuDFdDi4Hx1fVVSkSo9O0i/kGEidjXw3gqSfx6H+dSeC/gcjpsVZyCyvXERVXpTNXYobVIJtTV3UaSzGNZMSw==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^4.0.0"
+    tslib "~2.4.0"
+
 "@graphql-codegen/cli@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-3.0.0.tgz#eb367adfe51349e4822518183fc7ea7c06aea11b"

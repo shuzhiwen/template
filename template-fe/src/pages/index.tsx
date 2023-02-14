@@ -1,5 +1,8 @@
 import {Typography} from '@mui/material'
+import {useHelloWorldQuery} from '../generated/apollo'
 
 export function Entry() {
-  return <Typography>Hello World</Typography>
+  const {data} = useHelloWorldQuery()
+
+  return <Typography>{data?.hello}</Typography>
 }
