@@ -3,6 +3,19 @@ Date custom scalar type
 """
 scalar Date
 
+type Mutation {
+  setHello(hello: String): Boolean
+}
+
 type Query {
   hello: String
 }
+
+type Subscription {
+  helloWs(key: String): String
+}
+
+"""
+Void custom scalar type
+"""
+scalar Void

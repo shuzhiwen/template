@@ -1,3 +1,11 @@
-query helloWorld {
+query hello {
   hello
+}
+
+mutation setHello($hello: String) {
+  setHello(hello: $hello)
+}
+
+subscription helloWs($key: String) {
+  helloWs(key: $key)
 }

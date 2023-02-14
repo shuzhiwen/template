@@ -15,45 +15,130 @@ export type Scalars = {
   Int: number
   Float: number
   Date: any
+  Void: any
 }
 
-export type HelloWorldQueryVariables = Exact<{[key: string]: never}>
+export type HelloQueryVariables = Exact<{[key: string]: never}>
 
-export type HelloWorldQuery = {__typename?: 'Query'; hello?: string | null}
+export type HelloQuery = {__typename?: 'Query'; hello?: string | null}
 
-export const HelloWorldDocument = gql`
-  query helloWorld {
+export type SetHelloMutationVariables = Exact<{
+  hello?: InputMaybe<Scalars['String']>
+}>
+
+export type SetHelloMutation = {__typename?: 'Mutation'; setHello?: boolean | null}
+
+export type HelloWsSubscriptionVariables = Exact<{
+  key?: InputMaybe<Scalars['String']>
+}>
+
+export type HelloWsSubscription = {__typename?: 'Subscription'; helloWs?: string | null}
+
+export const HelloDocument = gql`
+  query hello {
     hello
   }
 `
 
 /**
- * __useHelloWorldQuery__
+ * __useHelloQuery__
  *
- * To run a query within a React component, call `useHelloWorldQuery` and pass it any options that fit your needs.
- * When your component renders, `useHelloWorldQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHelloQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHelloQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useHelloWorldQuery({
+ * const { data, loading, error } = useHelloQuery({
  *   variables: {
  *   },
  * });
  */
-export function useHelloWorldQuery(
-  baseOptions?: Apollo.QueryHookOptions<HelloWorldQuery, HelloWorldQueryVariables>
+export function useHelloQuery(
+  baseOptions?: Apollo.QueryHookOptions<HelloQuery, HelloQueryVariables>
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useQuery<HelloWorldQuery, HelloWorldQueryVariables>(HelloWorldDocument, options)
+  return Apollo.useQuery<HelloQuery, HelloQueryVariables>(HelloDocument, options)
 }
-export function useHelloWorldLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<HelloWorldQuery, HelloWorldQueryVariables>
+export function useHelloLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<HelloQuery, HelloQueryVariables>
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useLazyQuery<HelloWorldQuery, HelloWorldQueryVariables>(HelloWorldDocument, options)
+  return Apollo.useLazyQuery<HelloQuery, HelloQueryVariables>(HelloDocument, options)
 }
-export type HelloWorldQueryHookResult = ReturnType<typeof useHelloWorldQuery>
-export type HelloWorldLazyQueryHookResult = ReturnType<typeof useHelloWorldLazyQuery>
-export type HelloWorldQueryResult = Apollo.QueryResult<HelloWorldQuery, HelloWorldQueryVariables>
+export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>
+export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>
+export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>
+export const SetHelloDocument = gql`
+  mutation setHello($hello: String) {
+    setHello(hello: $hello)
+  }
+`
+export type SetHelloMutationFn = Apollo.MutationFunction<
+  SetHelloMutation,
+  SetHelloMutationVariables
+>
+
+/**
+ * __useSetHelloMutation__
+ *
+ * To run a mutation, you first call `useSetHelloMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetHelloMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setHelloMutation, { data, loading, error }] = useSetHelloMutation({
+ *   variables: {
+ *      hello: // value for 'hello'
+ *   },
+ * });
+ */
+export function useSetHelloMutation(
+  baseOptions?: Apollo.MutationHookOptions<SetHelloMutation, SetHelloMutationVariables>
+) {
+  const options = {...defaultOptions, ...baseOptions}
+  return Apollo.useMutation<SetHelloMutation, SetHelloMutationVariables>(SetHelloDocument, options)
+}
+export type SetHelloMutationHookResult = ReturnType<typeof useSetHelloMutation>
+export type SetHelloMutationResult = Apollo.MutationResult<SetHelloMutation>
+export type SetHelloMutationOptions = Apollo.BaseMutationOptions<
+  SetHelloMutation,
+  SetHelloMutationVariables
+>
+export const HelloWsDocument = gql`
+  subscription helloWs($key: String) {
+    helloWs(key: $key)
+  }
+`
+
+/**
+ * __useHelloWsSubscription__
+ *
+ * To run a query within a React component, call `useHelloWsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useHelloWsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHelloWsSubscription({
+ *   variables: {
+ *      key: // value for 'key'
+ *   },
+ * });
+ */
+export function useHelloWsSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<HelloWsSubscription, HelloWsSubscriptionVariables>
+) {
+  const options = {...defaultOptions, ...baseOptions}
+  return Apollo.useSubscription<HelloWsSubscription, HelloWsSubscriptionVariables>(
+    HelloWsDocument,
+    options
+  )
+}
+export type HelloWsSubscriptionHookResult = ReturnType<typeof useHelloWsSubscription>
+export type HelloWsSubscriptionResult = Apollo.SubscriptionResult<HelloWsSubscription>

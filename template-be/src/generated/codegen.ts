@@ -13,11 +13,30 @@ export type Scalars = {
   Int: number
   Float: number
   Date: any
+  Void: any
+}
+
+export type Mutation = {
+  __typename?: 'Mutation'
+  setHello?: Maybe<Scalars['Boolean']>
+}
+
+export type MutationSetHelloArgs = {
+  hello?: InputMaybe<Scalars['String']>
 }
 
 export type Query = {
   __typename?: 'Query'
   hello?: Maybe<Scalars['String']>
+}
+
+export type Subscription = {
+  __typename?: 'Subscription'
+  helloWs?: Maybe<Scalars['String']>
+}
+
+export type SubscriptionHelloWsArgs = {
+  key?: InputMaybe<Scalars['String']>
 }
 
 export type WithIndex<TObject> = TObject & Record<string, any>
@@ -109,21 +128,39 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   Date: ResolverTypeWrapper<Scalars['Date']>
+  Mutation: ResolverTypeWrapper<{}>
   Query: ResolverTypeWrapper<{}>
   String: ResolverTypeWrapper<Scalars['String']>
+  Subscription: ResolverTypeWrapper<{}>
+  Void: ResolverTypeWrapper<Scalars['Void']>
 }>
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']
   Date: Scalars['Date']
+  Mutation: {}
   Query: {}
   String: Scalars['String']
+  Subscription: {}
+  Void: Scalars['Void']
 }>
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date'
 }
+
+export type MutationResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
+> = ResolversObject<{
+  setHello?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType,
+    Partial<MutationSetHelloArgs>
+  >
+}>
 
 export type QueryResolvers<
   ContextType = ApolloContext,
@@ -132,7 +169,27 @@ export type QueryResolvers<
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
 }>
 
+export type SubscriptionResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
+> = ResolversObject<{
+  helloWs?: SubscriptionResolver<
+    Maybe<ResolversTypes['String']>,
+    'helloWs',
+    ParentType,
+    ContextType,
+    Partial<SubscriptionHelloWsArgs>
+  >
+}>
+
+export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
+  name: 'Void'
+}
+
 export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
   Date?: GraphQLScalarType
+  Mutation?: MutationResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
+  Subscription?: SubscriptionResolvers<ContextType>
+  Void?: GraphQLScalarType
 }>

@@ -1,5 +1,5 @@
 schema:
-  - './src/schema/index.graphql'
+  - './src/schema/index.gql'
 generates:
   src/generated/codegen.ts:
     plugins:

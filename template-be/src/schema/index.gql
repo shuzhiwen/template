@@ -1,0 +1,15 @@
+scalar Void
+
+scalar Date
+
+type Query {
+  hello: String
+}
+
+type Mutation {
+  setHello(hello: String): Boolean
+}
+
+type Subscription {
+  helloWs(key: String): String
+}

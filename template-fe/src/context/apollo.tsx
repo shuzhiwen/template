@@ -19,9 +19,10 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: '/ws',
+    url: 'ws://localhost:4000/graphql',
     connectionParams: {
-      authToken: 'some_token',
+      token: 'some_token',
+      key: 'test',
     },
   })
 )
@@ -46,7 +47,6 @@ const networkLink = split(
 
 const client = new ApolloClient({
   version: '1.0',
-  uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache(),
   link: from([authTokenLink, networkLink]),
   defaultOptions: {

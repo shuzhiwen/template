@@ -10,9 +10,9 @@ import {makeExecutableSchema} from '@graphql-tools/schema'
 import {addMocksToSchema} from '@graphql-tools/mock'
 import {resolvers} from '../resolvers'
 
-const typeDefs = readFileSync('src/schema/index.graphql', {encoding: 'utf-8'})
+const typeDefs = readFileSync('src/schema/index.gql', {encoding: 'utf-8'})
 
-function ShutdownWebSocket(disposable: Disposable): ApolloServerPlugin {
+function AutoClose(disposable: Disposable): ApolloServerPlugin {
   return {
     async serverWillStart() {
       return {
@@ -21,6 +21,12 @@ function ShutdownWebSocket(disposable: Disposable): ApolloServerPlugin {
         },
       }
     },
+  }
+}
+
+async function onConnect(ctx: AnyObject) {
+  if (!ctx.connectionParams?.token) {
+    throw new Error('Auth token missing!')
   }
 }
 
@@ -34,7 +40,7 @@ export async function createApolloServer(httpServer: http.Server) {
     schema: addMocksToSchema({schema, preserveResolvers: true}),
     plugins: [
       ApolloServerPluginDrainHttpServer({httpServer}),
-      ShutdownWebSocket(useServer({schema}, wsServer)),
+      AutoClose(useServer({schema, onConnect}, wsServer)),
     ],
   })
 

@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/graphql': 'http://localhost:4000/graphql',
-      '/ws': 'ws://localhost:4000/subscriptions',
+      '/ws': 'ws://localhost:4000/graphql',
     },
   },
 })

@@ -1,5 +1,19 @@
 import {GraphQLScalarType, Kind} from 'graphql'
 
+export const voidScalar = new GraphQLScalarType({
+  name: 'Void',
+  description: 'Void custom scalar type',
+  serialize() {
+    return undefined
+  },
+  parseValue() {
+    return undefined
+  },
+  parseLiteral() {
+    return undefined
+  },
+})
+
 export const dateScalar = new GraphQLScalarType({
   name: 'Date',
   description: 'Date custom scalar type',
