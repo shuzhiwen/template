@@ -25,7 +25,3 @@ type Keys<T> = T extends Set<infer K>
   : T extends Record<infer K, unknown>
   ? K
   : keyof T
-
-type ApolloContext = {
-  token: string
-}

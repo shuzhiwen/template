@@ -1,9 +1,11 @@
+import {PropsWithChildren} from 'react'
+import {onError} from '@apollo/client/link/error'
 import {setContext} from '@apollo/client/link/context'
 import {GraphQLWsLink} from '@apollo/client/link/subscriptions'
 import {getMainDefinition} from '@apollo/client/utilities'
 import {OperationDefinitionNode} from 'graphql'
 import {createClient} from 'graphql-ws'
-import {PropsWithChildren} from 'react'
+import {authTokenStorage} from './me'
 import {
   ApolloClient,
   ApolloProvider as RawApolloProvider,
@@ -13,31 +15,26 @@ import {
   split,
 } from '@apollo/client'
 
+const HOST = 'localhost:4000'
 const GRAPHQL_SERVER = '/graphql'
 
 const httpLink = new HttpLink({uri: GRAPHQL_SERVER})
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: `ws://localhost:4000${GRAPHQL_SERVER}`,
+    url: `ws://${HOST}${GRAPHQL_SERVER}`,
     connectionParams: {
-      token: 'some_token',
       key: 'test',
     },
   })
 )
 
-const urlLink = setContext((operation) => {
+const authTokenLink = setContext(({operationName}, context) => {
   return {
-    uri: `${GRAPHQL_SERVER}/${operation.operationName}`,
-  }
-})
-
-const authTokenLink = setContext((_, context) => {
-  return {
+    uri: `http://${HOST}${GRAPHQL_SERVER}/${operationName}`,
     headers: {
       ...context.headers,
-      Authorization: 'Token some_token',
+      Authorization: `Token ${authTokenStorage.get()}`,
     },
   }
 })
@@ -51,10 +48,16 @@ const networkLink = split(
   httpLink
 )
 
+const errorLink = onError(({graphQLErrors, networkError}) => {
+  if (graphQLErrors || networkError) {
+    alert(graphQLErrors?.[0].message || networkError?.message)
+  }
+})
+
 const client = new ApolloClient({
   version: '1.0',
   cache: new InMemoryCache(),
-  link: from([urlLink, authTokenLink, networkLink]),
+  link: from([authTokenLink, errorLink, networkLink]),
   defaultOptions: {
     mutate: {
       errorPolicy: 'none',
@@ -72,5 +75,9 @@ const client = new ApolloClient({
 })
 
 export function ApolloProvider(props: PropsWithChildren<unknown>) {
-  return <RawApolloProvider client={client}>{props.children}</RawApolloProvider>
+  return (
+    <RawApolloProvider client={client}>
+      <>{props.children}</>
+    </RawApolloProvider>
+  )
 }

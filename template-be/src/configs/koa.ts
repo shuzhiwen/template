@@ -1,10 +1,9 @@
-import http from 'http'
 import Koa from 'koa'
+import http from 'http'
 import cors from '@koa/cors'
 import bodyParser from 'koa-bodyparser'
 import {createApolloServer} from './apollo'
-
-const PORT = 4000
+import {env} from './env'
 
 export async function createKoaServer() {
   const app = new Koa()
@@ -15,8 +14,8 @@ export async function createKoaServer() {
   app.use(bodyParser())
   app.use(apolloPlugin)
 
-  await httpServer.listen({port: PORT}, () => {
-    console.log(`🚀 Query endpoint ready at http://localhost:${PORT}/graphql`)
-    console.log(`🚀 Subscription endpoint ready at ws://localhost:${PORT}/graphql`)
+  await httpServer.listen({port: env.port}, () => {
+    console.log(`🚀 Query endpoint ready at http://localhost:${env.port}/graphql`)
+    console.log(`🚀 Subscription endpoint ready at ws://localhost:${env.port}/graphql`)
   })
 }

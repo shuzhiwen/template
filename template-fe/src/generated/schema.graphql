@@ -1,18 +1,24 @@
+type AuthInfo {
+  token: String!
+  userId: String!
+}
+
 """
 Date custom scalar type
 """
 scalar Date
 
 type Mutation {
-  setHello(hello: String): Boolean
+  login(account: String, password: String): AuthInfo!
+  setHello(hello: String): Boolean!
 }
 
 type Query {
-  hello: String
+  hello: String!
 }
 
 type Subscription {
-  helloWs(key: String): String
+  helloWs(key: String): String!
 }
 
 """

@@ -2,14 +2,20 @@ scalar Void
 
 scalar Date
 
+type AuthInfo {
+  token: String!
+  userId: String!
+}
+
 type Query {
-  hello: String
+  hello: String!
 }
 
 type Mutation {
-  setHello(hello: String): Boolean
+  setHello(hello: String): Boolean!
+  login(account: String, password: String): AuthInfo!
 }
 
 type Subscription {
-  helloWs(key: String): String
+  helloWs(key: String): String!
 }

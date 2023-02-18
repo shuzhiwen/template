@@ -1,7 +1,7 @@
 import {MongoClient} from 'mongodb'
+import {env} from './env'
 
-const url = 'mongodb://127.0.0.1:27017'
-const client = new MongoClient(url)
+const client = new MongoClient(env.db.url)
 
 client
   .connect()

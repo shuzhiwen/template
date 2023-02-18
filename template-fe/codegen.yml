@@ -1,5 +1,5 @@
 schema:
-  - http://localhost:4000/graphql
+  - http://localhost:4000
 documents:
   - src/**/*.gql
 config:
@@ -12,7 +12,7 @@ generates:
   src/generated/schema.graphql:
     plugins:
       - schema-ast
-  src/generated/apollo.ts:
+  src/generated/codegen.ts:
     plugins:
       - add:
           content: '/* eslint-disable */'

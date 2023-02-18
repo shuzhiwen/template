@@ -12,7 +12,7 @@ import {resolvers} from '../resolvers'
 
 const typeDefs = readFileSync('src/schema/index.gql', {encoding: 'utf-8'})
 
-function AutoClose(disposable: Disposable): ApolloServerPlugin {
+function AutoClosePlugin(disposable: Disposable): ApolloServerPlugin {
   return {
     async serverWillStart() {
       return {
@@ -24,10 +24,8 @@ function AutoClose(disposable: Disposable): ApolloServerPlugin {
   }
 }
 
-async function onConnect(ctx: AnyObject) {
-  if (!ctx.connectionParams?.token) {
-    throw new Error('Auth token missing!')
-  }
+export enum CustomErrorCode {
+  AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR',
 }
 
 export async function createApolloServer(httpServer: http.Server) {
@@ -40,13 +38,15 @@ export async function createApolloServer(httpServer: http.Server) {
     schema: addMocksToSchema({schema, preserveResolvers: true}),
     plugins: [
       ApolloServerPluginDrainHttpServer({httpServer}),
-      AutoClose(useServer({schema, onConnect}, wsServer)),
+      AutoClosePlugin(useServer({schema}, wsServer)),
     ],
   })
 
   await apolloServer.start()
 
   return koaMiddleware<ApolloContext>(apolloServer, {
-    context: async ({ctx}) => ({token: ctx.headers.token as string}),
+    context: async ({ctx}) => ({
+      token: ctx.headers.authorization?.split(' ')[1],
+    }),
   })
 }

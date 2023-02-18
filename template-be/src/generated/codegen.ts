@@ -16,9 +16,21 @@ export type Scalars = {
   Void: any
 }
 
+export type AuthInfo = {
+  __typename?: 'AuthInfo'
+  token: Scalars['String']
+  userId: Scalars['String']
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
-  setHello?: Maybe<Scalars['Boolean']>
+  login: AuthInfo
+  setHello: Scalars['Boolean']
+}
+
+export type MutationLoginArgs = {
+  account?: InputMaybe<Scalars['String']>
+  password?: InputMaybe<Scalars['String']>
 }
 
 export type MutationSetHelloArgs = {
@@ -27,12 +39,12 @@ export type MutationSetHelloArgs = {
 
 export type Query = {
   __typename?: 'Query'
-  hello?: Maybe<Scalars['String']>
+  hello: Scalars['String']
 }
 
 export type Subscription = {
   __typename?: 'Subscription'
-  helloWs?: Maybe<Scalars['String']>
+  helloWs: Scalars['String']
 }
 
 export type SubscriptionHelloWsArgs = {
@@ -126,6 +138,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AuthInfo: ResolverTypeWrapper<AuthInfo>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   Date: ResolverTypeWrapper<Scalars['Date']>
   Mutation: ResolverTypeWrapper<{}>
@@ -137,6 +150,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AuthInfo: AuthInfo
   Boolean: Scalars['Boolean']
   Date: Scalars['Date']
   Mutation: {}
@@ -144,6 +158,15 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']
   Subscription: {}
   Void: Scalars['Void']
+}>
+
+export type AuthInfoResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes['AuthInfo'] = ResolversParentTypes['AuthInfo']
+> = ResolversObject<{
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -154,8 +177,9 @@ export type MutationResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
+  login?: Resolver<ResolversTypes['AuthInfo'], ParentType, ContextType, Partial<MutationLoginArgs>>
   setHello?: Resolver<
-    Maybe<ResolversTypes['Boolean']>,
+    ResolversTypes['Boolean'],
     ParentType,
     ContextType,
     Partial<MutationSetHelloArgs>
@@ -166,7 +190,7 @@ export type QueryResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
-  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>
 }>
 
 export type SubscriptionResolvers<
@@ -174,7 +198,7 @@ export type SubscriptionResolvers<
   ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
 > = ResolversObject<{
   helloWs?: SubscriptionResolver<
-    Maybe<ResolversTypes['String']>,
+    ResolversTypes['String'],
     'helloWs',
     ParentType,
     ContextType,
@@ -187,6 +211,7 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
+  AuthInfo?: AuthInfoResolvers<ContextType>
   Date?: GraphQLScalarType
   Mutation?: MutationResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
