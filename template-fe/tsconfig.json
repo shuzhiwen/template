@@ -2,21 +2,23 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "moduleResolution": "Node",
+    "useDefineForClassFields": true,
+    "declaration": true,
     "allowJs": true,
-    "alwaysStrict": true,
-    "declaration": false,
-    "esModuleInterop": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "removeComments": true,
-    "pretty": true,
-    "strict": true
+    "checkJs": true,
+    "skipLibCheck": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "Node",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "composite": true,
+    "rootDir": "src",
+    "outDir": "dist"
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src"]
 }

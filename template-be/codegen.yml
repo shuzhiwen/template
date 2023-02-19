@@ -1,6 +1,10 @@
 schema:
-  - './src/schema/index.gql'
+  - './src/schema/*.gql'
 generates:
+  src/generated/introspection.json:
+    plugins:
+      - introspection:
+          minify: true
   src/generated/codegen.ts:
     plugins:
       - add:

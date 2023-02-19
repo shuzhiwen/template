@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "allowJs": true,
     "alwaysStrict": true,
+    "resolveJsonModule": true,
     "declaration": false,
     "esModuleInterop": true,
     "inlineSourceMap": true,
@@ -19,5 +20,5 @@
     "pretty": true,
     "strict": true
   },
-  "exclude": ["node_modules", "dist"]
+  "include": ["src"]
 }

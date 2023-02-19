@@ -1,16 +1,15 @@
 import http from 'http'
-import {readFileSync} from 'fs'
 import {WebSocketServer} from 'ws'
 import {Disposable} from 'graphql-ws'
 import {useServer} from 'graphql-ws/lib/use/ws'
 import {koaMiddleware} from '@as-integrations/koa'
+import {addMocksToSchema} from '@graphql-tools/mock'
+import {makeExecutableSchema} from '@graphql-tools/schema'
 import {ApolloServer, ApolloServerPlugin} from '@apollo/server'
 import {ApolloServerPluginDrainHttpServer} from '@apollo/server/plugin/drainHttpServer'
-import {makeExecutableSchema} from '@graphql-tools/schema'
-import {addMocksToSchema} from '@graphql-tools/mock'
+import introspection from '../generated/introspection.json'
+import {buildClientSchema} from 'graphql'
 import {resolvers} from '../resolvers'
-
-const typeDefs = readFileSync('src/schema/index.gql', {encoding: 'utf-8'})
 
 function AutoClosePlugin(disposable: Disposable): ApolloServerPlugin {
   return {
@@ -29,7 +28,10 @@ export enum CustomErrorCode {
 }
 
 export async function createApolloServer(httpServer: http.Server) {
-  const schema = makeExecutableSchema({typeDefs, resolvers})
+  const schema = makeExecutableSchema({
+    typeDefs: buildClientSchema(introspection as any),
+    resolvers,
+  })
   const wsServer = new WebSocketServer({
     server: httpServer,
     path: '/graphql',
