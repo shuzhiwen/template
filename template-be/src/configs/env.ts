@@ -6,4 +6,11 @@ export const env = {
   jwt: {
     secret: process.env.JWT_SECRET || 'secret-key',
   },
+  mail: {
+    host: process.env.MAIL_HOST || 'smtp.qq.com',
+    auth: {
+      user: process.env.MAIL_USER || 'yuwenmiao@qq.com',
+      pass: process.env.MAIL_PASS || 'pcihaczthyyxcbcf',
+    },
+  },
 }

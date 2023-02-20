@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken'
 import {GraphQLError} from 'graphql'
-import {MutationLoginArgs} from '../generated/codegen'
-import {CustomErrorCode, env} from '../configs'
-import {findUser} from './mock'
+import {MutationLoginByEmailArgs} from '../../generated/codegen'
+import {CustomErrorCode, env} from '../../configs'
+import {findUser} from '../mock'
 
-export const login = async (args: MutationLoginArgs) => {
-  const {account, password} = args
-  const user = await findUser(account, password)
+export const login = async (args: MutationLoginByEmailArgs) => {
+  const {email, password} = args
+  const user = await findUser(email, password)
 
   if (!user) {
     throw new GraphQLError('Wrong user name or password', {

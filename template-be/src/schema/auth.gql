@@ -1,0 +1,10 @@
+type AuthInfo {
+  token: String!
+  userId: String!
+}
+
+type Mutation {
+  loginByEmail(email: String!, verificationCode: String!, password: String!): AuthInfo!
+  resetPasswordByEmail(email: String!, verificationCode: String!, password: String!): Boolean!
+  sendEmailVerificationCode(email: String!): Boolean
+}

@@ -5,6 +5,7 @@ export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends {[key: string]: unknown}> = {[K in keyof T]: T[K]}
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]?: Maybe<T[SubKey]>}
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]: Maybe<T[SubKey]>}
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {[P in K]-?: NonNullable<T[P]>}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string
@@ -24,17 +25,30 @@ export type AuthInfo = {
 
 export type Mutation = {
   __typename?: 'Mutation'
-  login: AuthInfo
-  setHello: Scalars['Boolean']
+  loginByEmail: AuthInfo
+  resetPasswordByEmail: Scalars['Boolean']
+  sayHello: Scalars['Boolean']
+  sendEmailVerificationCode?: Maybe<Scalars['Boolean']>
 }
 
-export type MutationLoginArgs = {
-  account?: InputMaybe<Scalars['String']>
-  password?: InputMaybe<Scalars['String']>
+export type MutationLoginByEmailArgs = {
+  email: Scalars['String']
+  password: Scalars['String']
+  verificationCode: Scalars['String']
 }
 
-export type MutationSetHelloArgs = {
+export type MutationResetPasswordByEmailArgs = {
+  email: Scalars['String']
+  password: Scalars['String']
+  verificationCode: Scalars['String']
+}
+
+export type MutationSayHelloArgs = {
   hello?: InputMaybe<Scalars['String']>
+}
+
+export type MutationSendEmailVerificationCodeArgs = {
+  email: Scalars['String']
 }
 
 export type Query = {
@@ -177,12 +191,29 @@ export type MutationResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
-  login?: Resolver<ResolversTypes['AuthInfo'], ParentType, ContextType, Partial<MutationLoginArgs>>
-  setHello?: Resolver<
+  loginByEmail?: Resolver<
+    ResolversTypes['AuthInfo'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationLoginByEmailArgs, 'email' | 'password' | 'verificationCode'>
+  >
+  resetPasswordByEmail?: Resolver<
     ResolversTypes['Boolean'],
     ParentType,
     ContextType,
-    Partial<MutationSetHelloArgs>
+    RequireFields<MutationResetPasswordByEmailArgs, 'email' | 'password' | 'verificationCode'>
+  >
+  sayHello?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    Partial<MutationSayHelloArgs>
+  >
+  sendEmailVerificationCode?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationSendEmailVerificationCodeArgs, 'email'>
   >
 }>
 

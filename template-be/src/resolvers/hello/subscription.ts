@@ -1,7 +1,7 @@
 import {get} from 'lodash'
 import {withFilter} from 'graphql-subscriptions'
-import {SubscriptionResolvers} from '../generated/codegen'
-import {pubsub} from './mock'
+import {SubscriptionResolvers} from '../../generated/codegen'
+import {pubsub} from '../mock'
 
 export const subscriptionResolvers: SubscriptionResolvers<ApolloContext, AnyObject> = {
   helloWs: {
