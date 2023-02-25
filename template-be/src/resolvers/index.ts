@@ -1,23 +1,15 @@
-import {Resolvers} from '../generated/codegen'
+import {Resolvers} from '../generated'
 import {dateScalar, voidScalar} from './scalar'
-import {mutationResolvers} from './auth/mutation'
-import {
-  queryResolvers as helloQuery,
-  mutationResolvers as helloMutation,
-  subscriptionResolvers as helloSubscription,
-} from './hello'
+import {helloQuery, helloMutation, helloSubscription} from './hello'
+import {authMutation} from './auth/mutation'
+
+export * from './auth/jwt'
+export * from './mock'
 
 export const resolvers: Resolvers = {
   Date: dateScalar,
   Void: voidScalar,
-  Query: {
-    ...helloQuery,
-  },
-  Mutation: {
-    ...helloMutation,
-    ...mutationResolvers,
-  },
-  Subscription: {
-    ...helloSubscription,
-  },
+  Query: Object.assign(helloQuery),
+  Mutation: Object.assign(helloMutation, authMutation),
+  Subscription: Object.assign(helloSubscription),
 }

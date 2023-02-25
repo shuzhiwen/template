@@ -8,9 +8,9 @@ type MaybeGroup<T> = Maybe<T | T[]>
 
 type AnyObject = Record<string, any>
 
-type AnyFunction<T = unknown> = (...args: any) => T
+type AnyAsyncFunction<T = unknown> = (...args: any) => Promise<T>
 
-type AnyEventObject = Record<string, AnyFunction>
+type AsyncReturnType<T> = T extends Promise<infer V> ? V : never
 
 type Ungroup<T> = T extends Array<infer V> ? Ungroup<V> : T
 

@@ -7,8 +7,8 @@ import {addMocksToSchema} from '@graphql-tools/mock'
 import {makeExecutableSchema} from '@graphql-tools/schema'
 import {ApolloServer, ApolloServerPlugin} from '@apollo/server'
 import {ApolloServerPluginDrainHttpServer} from '@apollo/server/plugin/drainHttpServer'
-import introspection from '../generated/introspection.json'
 import {buildClientSchema} from 'graphql'
+import {introspection} from '../generated'
 import {resolvers} from '../resolvers'
 
 function AutoClosePlugin(disposable: Disposable): ApolloServerPlugin {
@@ -23,13 +23,9 @@ function AutoClosePlugin(disposable: Disposable): ApolloServerPlugin {
   }
 }
 
-export enum CustomErrorCode {
-  AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR',
-}
-
 export async function createApolloServer(httpServer: http.Server) {
   const schema = makeExecutableSchema({
-    typeDefs: buildClientSchema(introspection as any),
+    typeDefs: buildClientSchema(introspection),
     resolvers,
   })
   const wsServer = new WebSocketServer({

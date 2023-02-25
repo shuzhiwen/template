@@ -1,12 +1,9 @@
-import {sample} from 'lodash'
 import nodemailer from 'nodemailer'
+import {randomCode} from '../../utils'
 import {env} from '../../configs'
 
 export async function sendEmail(to: string) {
-  const code = new Array(6)
-    .fill(null)
-    .map(() => sample('0123456789'))
-    .join('')
+  const code = randomCode()
   const transporter = nodemailer.createTransport({
     host: env.mail.host,
     port: 465,
@@ -21,4 +18,6 @@ export async function sendEmail(to: string) {
     text: `This is your validation code: ${code}`,
     html: `<b>This is your validation code: ${code}</b>`,
   })
+
+  return code
 }

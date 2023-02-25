@@ -26,12 +26,18 @@ export type AuthInfo = {
 export type Mutation = {
   __typename?: 'Mutation'
   loginByEmail: AuthInfo
+  logonByEmail: AuthInfo
   resetPasswordByEmail: Scalars['Boolean']
   sayHello: Scalars['Boolean']
   sendEmailVerificationCode?: Maybe<Scalars['Boolean']>
 }
 
 export type MutationLoginByEmailArgs = {
+  email: Scalars['String']
+  password: Scalars['String']
+}
+
+export type MutationLogonByEmailArgs = {
   email: Scalars['String']
   password: Scalars['String']
   verificationCode: Scalars['String']
@@ -195,7 +201,13 @@ export type MutationResolvers<
     ResolversTypes['AuthInfo'],
     ParentType,
     ContextType,
-    RequireFields<MutationLoginByEmailArgs, 'email' | 'password' | 'verificationCode'>
+    RequireFields<MutationLoginByEmailArgs, 'email' | 'password'>
+  >
+  logonByEmail?: Resolver<
+    ResolversTypes['AuthInfo'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationLogonByEmailArgs, 'email' | 'password' | 'verificationCode'>
   >
   resetPasswordByEmail?: Resolver<
     ResolversTypes['Boolean'],

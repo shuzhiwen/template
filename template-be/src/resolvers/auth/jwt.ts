@@ -1,39 +1,33 @@
 import jwt from 'jsonwebtoken'
-import {GraphQLError} from 'graphql'
-import {MutationLoginByEmailArgs} from '../../generated/codegen'
-import {CustomErrorCode, env} from '../../configs'
-import {findUser} from '../mock'
+import {MutationLoginByEmailArgs} from '../../generated'
+import {AuthenticationError} from '../../utils'
+import {ModelUser} from '../../models'
+import {env} from '../../configs'
 
-export const login = async (args: MutationLoginByEmailArgs) => {
-  const {email, password} = args
-  const user = await findUser(email, password)
-
-  if (!user) {
-    throw new GraphQLError('Wrong user name or password', {
-      extensions: {code: CustomErrorCode.AUTHENTICATION_ERROR},
-    })
-  }
-
-  return {
-    token: jwt.sign({userId: user._id} as JwtPayload, env.jwt.secret, {expiresIn: '7d'}),
-    userId: user._id,
-  }
+type Payload = {
+  userId: string
 }
 
-const auth = (token: string) => {
+export const loginByEmail = async ({email, password}: MutationLoginByEmailArgs) => {
+  const model = new ModelUser()
+  const user = await model.getUserByEmailAndPassword(email, password)
+  const userId = user?._id.toString()
+
+  if (!userId) throw new AuthenticationError('Wrong user name or password')
+
+  const token = jwt.sign({userId} as Payload, env.jwt.secret, {expiresIn: '7d'})
+  await model.registerToken(token, userId)
+
+  return {token, userId}
+}
+
+export async function requireAuth({token}: ApolloContext) {
   try {
-    return jwt.verify(token, env.jwt.secret) as JwtPayload
+    const decode = jwt.verify(token!, env.jwt.secret) as Payload
+    const user = await new ModelUser().getUserById(decode.userId)
+    return user
   } catch (error) {
-    throw new GraphQLError('Authentication failed', {
-      extensions: {code: CustomErrorCode.AUTHENTICATION_ERROR},
-    })
-  }
-}
-
-export function requireAuth({token}: ApolloContext) {
-  if (!token || !auth(token)) {
-    throw new GraphQLError('Authentication failed', {
-      extensions: {code: CustomErrorCode.AUTHENTICATION_ERROR},
-    })
+    console.error(error)
+    throw new AuthenticationError()
   }
 }

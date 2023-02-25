@@ -5,8 +5,8 @@ const client = new MongoClient(env.db.url)
 
 client
   .connect()
-  .then(() => client.db('local').command({ping: 1}))
+  .then(() => client.db('test').command({ping: 1}))
   .then(() => console.log('Connected successfully to server'))
   .catch(console.error)
 
-export const db = client.db('local')
+export const db = client.db('test')
