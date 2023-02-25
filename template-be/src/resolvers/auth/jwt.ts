@@ -27,7 +27,6 @@ export async function requireAuth({token}: ApolloContext) {
     const user = await new ModelUser().getUserById(decode.userId)
     return user
   } catch (error) {
-    console.error(error)
-    throw new AuthenticationError()
+    throw new AuthenticationError('Token parsing failed')
   }
 }

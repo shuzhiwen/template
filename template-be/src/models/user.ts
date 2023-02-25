@@ -55,7 +55,10 @@ export class ModelUser extends ModelBase {
 
   async createUser(props: Pick<User, 'email' | 'password'>) {
     const {email, password} = props
-    await this.dbUser.insertOne({email, password, name: `user_${randomCode}`})
-    return await this.dbUser.findOne(props)
+    if (await this.dbUser.findOne({email})) {
+      throw new Error('This email address has been registered')
+    }
+    await this.dbUser.insertOne({email, password, name: `user_${randomCode()}`})
+    return await this.dbUser.findOne({email})
   }
 }

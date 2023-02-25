@@ -6,14 +6,14 @@ import {helloWorld, pubsub} from '../mock'
 
 export const helloQuery: QueryResolvers<ApolloContext, AnyObject> = {
   hello: async (_, __, ctx) => {
-    requireAuth(ctx)
+    await requireAuth(ctx)
     return helloWorld
   },
 }
 
 export const helloMutation: MutationResolvers<ApolloContext, AnyObject> = {
-  sayHello: (_, args, ctx) => {
-    requireAuth(ctx)
+  sayHello: async (_, args, ctx) => {
+    await requireAuth(ctx)
     if (args.hello) {
       pubsub.publish('HELLO', args.hello)
       return true

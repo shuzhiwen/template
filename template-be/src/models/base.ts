@@ -7,7 +7,7 @@ export class ModelBase {
         return await fn.call(this, ...args)
       } catch (error) {
         console.error(`Function: ${fn.name}\n`, error)
-        throw new AuthenticationError()
+        throw new AuthenticationError((error as Error).message)
       }
     }) as Fn
   }
