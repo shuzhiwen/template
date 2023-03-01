@@ -1,16 +1,20 @@
+import {config} from 'dotenv'
+
+config()
+
 export const env = {
-  port: process.env.PORT || 10010,
+  port: process.env.PORT || 80,
   db: {
     url: process.env.DB_URI || 'mongodb://127.0.0.1:27017',
   },
   jwt: {
-    secret: process.env.JWT_SECRET || 'secret-key',
+    secret: process.env.JWT_SECRET || 'secret',
   },
   mail: {
-    host: process.env.MAIL_HOST || 'smtp.qq.com',
+    host: process.env.MAIL_HOST,
     auth: {
-      user: process.env.MAIL_USER || 'yuwenmiao@qq.com',
-      pass: process.env.MAIL_PASS || 'pcihaczthyyxcbcf',
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
     },
   },
 }

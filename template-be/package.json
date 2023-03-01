@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./dist/index.js",
+    "dev": "nodemon ./src/index.ts",
     "codegen": "graphql-codegen --config codegen.yml",
     "package": "rm -rf dist && yarn tsc && yarn bundle && yarn clear",
     "clear": "find dist/* | grep -v 'main' | xargs rm -rf",
@@ -15,6 +15,7 @@
     "@graphql-tools/schema": "^9.0.16",
     "@koa/cors": "^4.0.0",
     "@types/nodemailer": "^6.4.7",
+    "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
     "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.11.3",
