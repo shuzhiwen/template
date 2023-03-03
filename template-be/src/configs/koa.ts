@@ -8,14 +8,14 @@ import {env} from './env'
 export async function createKoaServer() {
   const app = new Koa()
   const httpServer = http.createServer(app.callback())
-  const apolloPlugin = await createApolloServer(httpServer)
+  const apolloMiddleware = await createApolloServer(httpServer)
 
   app.use(cors())
   app.use(bodyParser())
-  app.use(apolloPlugin)
+  app.use(apolloMiddleware)
 
   await httpServer.listen({port: env.port}, () => {
-    console.log(`🚀 Query endpoint ready at http://localhost:${env.port}/graphql`)
-    console.log(`🚀 Subscription endpoint ready at ws://localhost:${env.port}/graphql`)
+    console.log(`🚀 Query endpoint ready at http://localhost:${env.port}`)
+    console.log(`🚀 Subscription endpoint ready at ws://localhost:${env.port}`)
   })
 }

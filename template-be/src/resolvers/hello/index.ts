@@ -1,8 +1,9 @@
 import {get} from 'lodash'
 import {withFilter} from 'graphql-subscriptions'
 import {QueryResolvers, MutationResolvers, SubscriptionResolvers} from '../../generated'
-import {requireAuth} from '../auth/jwt'
 import {helloWorld, pubsub} from '../mock'
+import {ApolloContext} from '../../configs'
+import {requireAuth} from '../auth/jwt'
 
 export const helloQuery: QueryResolvers<ApolloContext, AnyObject> = {
   hello: async (_, __, ctx) => {

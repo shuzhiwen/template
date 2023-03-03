@@ -8,7 +8,9 @@ generates:
   src/generated/codegen.ts:
     plugins:
       - add:
-          content: '/* eslint-disable */'
+          content:
+            - /* eslint-disable */
+            - import {ApolloContext} from '../configs'
           placement: 'prepend'
       - 'typescript'
       - 'typescript-resolvers'

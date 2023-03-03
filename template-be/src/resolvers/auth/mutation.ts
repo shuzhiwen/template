@@ -1,14 +1,14 @@
 import {loginByEmail} from './jwt'
+import {ApolloContext} from '../../configs'
 import {MutationResolvers} from '../../generated'
 import {AuthenticationError} from '../../utils'
-import {ModelUser} from '../../models'
 import {sendEmail} from './email'
 
 const emailAuthMapping = new Map<string, string[]>()
 
 export const authMutation: MutationResolvers<ApolloContext, AnyObject> = {
-  loginByEmail: async (_, args) => {
-    return await loginByEmail(args)
+  loginByEmail: async (_, args, ctx) => {
+    return await loginByEmail(ctx, args)
   },
 
   sendEmailVerificationCode: async (_, {email}) => {
@@ -18,19 +18,19 @@ export const authMutation: MutationResolvers<ApolloContext, AnyObject> = {
     return true
   },
 
-  resetPasswordByEmail: async (_, args) => {
+  resetPasswordByEmail: async (_, args, {userModel}) => {
     if (!emailAuthMapping.get(args.email)?.includes(args.verificationCode)) {
       throw new AuthenticationError('Wrong verification code')
     }
-    await new ModelUser().resetPasswordOfUser(args.email, args.password)
+    await userModel.resetPasswordOfUser(args.email, args.password)
     return true
   },
 
-  logonByEmail: async (_, args) => {
+  logonByEmail: async (_, args, ctx) => {
     if (!emailAuthMapping.get(args.email)?.includes(args.verificationCode)) {
       throw new AuthenticationError('Wrong verification code')
     }
-    const user = await new ModelUser().createUser(args)
-    return await loginByEmail(user!)
+    const user = await ctx.userModel.createUser(args)
+    return await loginByEmail(ctx, user!)
   },
 }

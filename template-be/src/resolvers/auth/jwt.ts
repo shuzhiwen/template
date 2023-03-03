@@ -1,12 +1,17 @@
 import jwt from 'jsonwebtoken'
+import {ApolloContext, env} from '../../configs'
 import {MutationLoginByEmailArgs} from '../../generated'
 import {AuthenticationError} from '../../utils'
-import {ModelUser} from '../../models'
-import {env} from '../../configs'
 
-export const loginByEmail = async ({email, password}: MutationLoginByEmailArgs) => {
-  const model = new ModelUser()
-  const user = await model.getUserByEmailAndPassword(email, password)
+type JwtPayload = {
+  userId: string
+}
+
+export const loginByEmail = async (
+  {userModel}: ApolloContext,
+  {email, password}: MutationLoginByEmailArgs
+) => {
+  const user = await userModel.getUserByEmailAndPassword(email, password)
   const userId = user?._id.toString()
 
   if (!userId) throw new AuthenticationError('Wrong user name or password')
@@ -17,10 +22,10 @@ export const loginByEmail = async ({email, password}: MutationLoginByEmailArgs) 
   }
 }
 
-export async function requireAuth({token}: ApolloContext) {
+export async function requireAuth({token, userModel}: ApolloContext) {
   try {
     const decode = jwt.verify(token!, env.jwt.secret) as JwtPayload
-    const user = await new ModelUser().getUserById(decode.userId)
+    const user = await userModel.getUserById(decode.userId)
 
     if (!user) throw new AuthenticationError('No user matched')
 
