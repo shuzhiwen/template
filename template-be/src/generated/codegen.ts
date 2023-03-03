@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {ApolloContext} from '../configs'
+import {ApolloContext} from '@types'
 import {GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig} from 'graphql'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>

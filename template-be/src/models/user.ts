@@ -1,7 +1,7 @@
+import {db} from '@configs'
+import {randomCode} from '@utils'
 import {Collection, ObjectId} from 'mongodb'
-import {randomCode} from '../utils'
 import {ModelBase} from './base'
-import {db} from '../configs'
 
 type User = {
   name: string

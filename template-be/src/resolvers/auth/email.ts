@@ -1,6 +1,6 @@
+import {env} from '@configs'
+import {randomCode} from '@utils'
 import nodemailer from 'nodemailer'
-import {randomCode} from '../../utils'
-import {env} from '../../configs'
 
 export async function sendEmail(to: string) {
   const code = randomCode()

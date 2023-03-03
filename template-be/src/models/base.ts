@@ -1,4 +1,4 @@
-import {AuthenticationError} from '../utils'
+import {AuthenticationError} from '@utils'
 
 export class ModelBase {
   catch<Fn extends AnyAsyncFunction>(fn: Fn) {

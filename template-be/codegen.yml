@@ -10,7 +10,7 @@ generates:
       - add:
           content:
             - /* eslint-disable */
-            - import {ApolloContext} from '../configs'
+            - import {ApolloContext} from '@types'
           placement: 'prepend'
       - 'typescript'
       - 'typescript-resolvers'

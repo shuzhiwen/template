@@ -18,7 +18,11 @@
     "noUnusedLocals": true,
     "removeComments": true,
     "pretty": true,
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@*": ["./src/*"]
+    }
   },
   "include": ["src"],
   "ts-node": {

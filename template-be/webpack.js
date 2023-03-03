@@ -12,4 +12,13 @@ module.exports = {
     filename: 'main.min.js',
     path: path.resolve(__dirname, 'dist'),
   },
+  resolve: {
+    alias: {
+      '@configs': path.resolve(__dirname, 'dist/configs'),
+      '@generated': path.resolve(__dirname, 'dist/generated'),
+      '@models': path.resolve(__dirname, 'dist/models'),
+      '@resolvers': path.resolve(__dirname, 'dist/resolvers'),
+      '@utils': path.resolve(__dirname, 'dist/utils'),
+    },
+  },
 }

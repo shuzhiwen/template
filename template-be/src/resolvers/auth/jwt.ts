@@ -1,11 +1,8 @@
 import jwt from 'jsonwebtoken'
-import {ApolloContext, env} from '../../configs'
-import {MutationLoginByEmailArgs} from '../../generated'
-import {AuthenticationError} from '../../utils'
-
-type JwtPayload = {
-  userId: string
-}
+import {ApolloContext, JwtPayload} from '@types'
+import {MutationLoginByEmailArgs} from '@generated'
+import {AuthenticationError} from '@utils'
+import {env} from '@configs'
 
 export const loginByEmail = async (
   {userModel}: ApolloContext,

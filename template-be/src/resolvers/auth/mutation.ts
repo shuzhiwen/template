@@ -1,7 +1,7 @@
+import {ApolloContext} from '@types'
+import {MutationResolvers} from '@generated'
+import {AuthenticationError} from '@utils'
 import {loginByEmail} from './jwt'
-import {ApolloContext} from '../../configs'
-import {MutationResolvers} from '../../generated'
-import {AuthenticationError} from '../../utils'
 import {sendEmail} from './email'
 
 const emailAuthMapping = new Map<string, string[]>()

@@ -8,14 +8,10 @@ import {addMocksToSchema} from '@graphql-tools/mock'
 import {makeExecutableSchema} from '@graphql-tools/schema'
 import {ApolloServer, ApolloServerPlugin} from '@apollo/server'
 import {ApolloServerPluginDrainHttpServer} from '@apollo/server/plugin/drainHttpServer'
-import {introspection} from '../generated'
-import {resolvers} from '../resolvers'
-import {UserModel} from '../models'
-
-export type ApolloContext = {
-  token: Maybe<string>
-  userModel: UserModel
-}
+import {introspection} from '@generated'
+import {ApolloContext} from '@types'
+import {resolvers} from '@resolvers'
+import {UserModel} from '@models'
 
 const AutoCloseWebSocket = (disposable: Disposable): ApolloServerPlugin => ({
   serverWillStart: async () => ({
