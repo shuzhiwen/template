@@ -19,6 +19,14 @@ const AutoCloseWebSocket = (disposable: Disposable): ApolloServerPlugin => ({
   }),
 })
 
+const mocks = {
+  Int: () => 8,
+  Float: () => 3.45,
+  String: () => 'Hello',
+  Date: () => new Date(),
+  Void: () => undefined,
+}
+
 export async function createApolloServer(httpServer: http.Server) {
   const schema = makeExecutableSchema({
     typeDefs: buildClientSchema(introspection),
@@ -29,7 +37,11 @@ export async function createApolloServer(httpServer: http.Server) {
     path: '/graphql',
   })
   const apolloServer = new ApolloServer<ApolloContext>({
-    schema: addMocksToSchema({schema, preserveResolvers: true}),
+    schema: addMocksToSchema({
+      mocks,
+      schema,
+      preserveResolvers: true,
+    }),
     plugins: [
       ApolloServerPluginDrainHttpServer({httpServer}),
       AutoCloseWebSocket(useServer({schema}, wsServer)),
