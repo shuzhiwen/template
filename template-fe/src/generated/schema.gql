@@ -1,0 +1,30 @@
+type AuthInfo {
+  token: String!
+  userId: String!
+}
+
+"""
+Date custom scalar type
+"""
+scalar Date
+
+type Mutation {
+  loginByEmail(email: String!, password: String!): AuthInfo!
+  logonByEmail(email: String!, password: String!, verificationCode: String!): AuthInfo!
+  resetPasswordByEmail(email: String!, password: String!, verificationCode: String!): Boolean!
+  sayHello(hello: String): Boolean!
+  sendEmailVerificationCode(email: String!): Boolean
+}
+
+type Query {
+  hello: String!
+}
+
+type Subscription {
+  helloWs(key: String): String!
+}
+
+"""
+Void custom scalar type
+"""
+scalar Void

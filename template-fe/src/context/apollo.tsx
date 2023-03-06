@@ -1,10 +1,10 @@
-import {PropsWithChildren} from 'react'
 import {onError} from '@apollo/client/link/error'
 import {setContext} from '@apollo/client/link/context'
 import {GraphQLWsLink} from '@apollo/client/link/subscriptions'
 import {getMainDefinition} from '@apollo/client/utilities'
 import {OperationDefinitionNode} from 'graphql'
 import {createClient} from 'graphql-ws'
+import {PropsWithChildren} from 'react'
 import {authTokenStorage} from './me'
 import {
   ApolloClient,
@@ -15,7 +15,7 @@ import {
   split,
 } from '@apollo/client'
 
-const HOST = 'localhost:4000'
+const HOST = 'localhost:80'
 const GRAPHQL_SERVER = '/graphql'
 
 const httpLink = new HttpLink({uri: GRAPHQL_SERVER})

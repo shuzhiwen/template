@@ -22,21 +22,21 @@ export type HelloQueryVariables = Exact<{[key: string]: never}>
 
 export type HelloQuery = {__typename?: 'Query'; hello: string}
 
-export type LoginMutationVariables = Exact<{
-  account?: InputMaybe<Scalars['String']>
-  password?: InputMaybe<Scalars['String']>
+export type LoginByEmailMutationVariables = Exact<{
+  email: Scalars['String']
+  password: Scalars['String']
 }>
 
-export type LoginMutation = {
+export type LoginByEmailMutation = {
   __typename?: 'Mutation'
-  login: {__typename?: 'AuthInfo'; token: string; userId: string}
+  loginByEmail: {__typename?: 'AuthInfo'; userId: string; token: string}
 }
 
-export type SetHelloMutationVariables = Exact<{
+export type SayHelloMutationVariables = Exact<{
   hello?: InputMaybe<Scalars['String']>
 }>
 
-export type SetHelloMutation = {__typename?: 'Mutation'; setHello: boolean}
+export type SayHelloMutation = {__typename?: 'Mutation'; sayHello: boolean}
 
 export type HelloWsSubscriptionVariables = Exact<{
   key?: InputMaybe<Scalars['String']>
@@ -80,81 +80,90 @@ export function useHelloLazyQuery(
 export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>
 export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>
 export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>
-export const LoginDocument = gql`
-  mutation login($account: String, $password: String) {
-    login(account: $account, password: $password) {
-      token
+export const LoginByEmailDocument = gql`
+  mutation loginByEmail($email: String!, $password: String!) {
+    loginByEmail(email: $email, password: $password) {
       userId
+      token
     }
   }
 `
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>
+export type LoginByEmailMutationFn = Apollo.MutationFunction<
+  LoginByEmailMutation,
+  LoginByEmailMutationVariables
+>
 
 /**
- * __useLoginMutation__
+ * __useLoginByEmailMutation__
  *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useLoginByEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginByEmailMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ * const [loginByEmailMutation, { data, loading, error }] = useLoginByEmailMutation({
  *   variables: {
- *      account: // value for 'account'
+ *      email: // value for 'email'
  *      password: // value for 'password'
  *   },
  * });
  */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>
+export function useLoginByEmailMutation(
+  baseOptions?: Apollo.MutationHookOptions<LoginByEmailMutation, LoginByEmailMutationVariables>
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options)
+  return Apollo.useMutation<LoginByEmailMutation, LoginByEmailMutationVariables>(
+    LoginByEmailDocument,
+    options
+  )
 }
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>
-export type LoginMutationResult = Apollo.MutationResult<LoginMutation>
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>
-export const SetHelloDocument = gql`
-  mutation setHello($hello: String) {
-    setHello(hello: $hello)
+export type LoginByEmailMutationHookResult = ReturnType<typeof useLoginByEmailMutation>
+export type LoginByEmailMutationResult = Apollo.MutationResult<LoginByEmailMutation>
+export type LoginByEmailMutationOptions = Apollo.BaseMutationOptions<
+  LoginByEmailMutation,
+  LoginByEmailMutationVariables
+>
+export const SayHelloDocument = gql`
+  mutation sayHello($hello: String) {
+    sayHello(hello: $hello)
   }
 `
-export type SetHelloMutationFn = Apollo.MutationFunction<
-  SetHelloMutation,
-  SetHelloMutationVariables
+export type SayHelloMutationFn = Apollo.MutationFunction<
+  SayHelloMutation,
+  SayHelloMutationVariables
 >
 
 /**
- * __useSetHelloMutation__
+ * __useSayHelloMutation__
  *
- * To run a mutation, you first call `useSetHelloMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSetHelloMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSayHelloMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSayHelloMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [setHelloMutation, { data, loading, error }] = useSetHelloMutation({
+ * const [sayHelloMutation, { data, loading, error }] = useSayHelloMutation({
  *   variables: {
  *      hello: // value for 'hello'
  *   },
  * });
  */
-export function useSetHelloMutation(
-  baseOptions?: Apollo.MutationHookOptions<SetHelloMutation, SetHelloMutationVariables>
+export function useSayHelloMutation(
+  baseOptions?: Apollo.MutationHookOptions<SayHelloMutation, SayHelloMutationVariables>
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useMutation<SetHelloMutation, SetHelloMutationVariables>(SetHelloDocument, options)
+  return Apollo.useMutation<SayHelloMutation, SayHelloMutationVariables>(SayHelloDocument, options)
 }
-export type SetHelloMutationHookResult = ReturnType<typeof useSetHelloMutation>
-export type SetHelloMutationResult = Apollo.MutationResult<SetHelloMutation>
-export type SetHelloMutationOptions = Apollo.BaseMutationOptions<
-  SetHelloMutation,
-  SetHelloMutationVariables
+export type SayHelloMutationHookResult = ReturnType<typeof useSayHelloMutation>
+export type SayHelloMutationResult = Apollo.MutationResult<SayHelloMutation>
+export type SayHelloMutationOptions = Apollo.BaseMutationOptions<
+  SayHelloMutation,
+  SayHelloMutationVariables
 >
 export const HelloWsDocument = gql`
   subscription helloWs($key: String) {

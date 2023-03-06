@@ -6,15 +6,15 @@ import {useMe} from '../context'
 import {
   useHelloQuery,
   useHelloWsSubscription,
-  useLoginMutation,
-  useSetHelloMutation,
-} from '../generated/codegen'
+  useLoginByEmailMutation,
+  useSayHelloMutation,
+} from '../generated'
 
 export function Entry() {
   const {user, login} = useMe()
   const [hello, setHello] = useState('')
-  const [loginMutation] = useLoginMutation()
-  const [helloMutation] = useSetHelloMutation()
+  const [loginMutation] = useLoginByEmailMutation()
+  const [helloMutation] = useSayHelloMutation()
   const {data: helloResult} = useHelloQuery({
     skip: !user,
   })
@@ -23,8 +23,8 @@ export function Entry() {
     variables: {key: 'test'},
   })
   const loginAccount = useCallback(async () => {
-    const {data} = await loginMutation({variables: {account: '1', password: '1'}})
-    data && login(data.login)
+    const {data} = await loginMutation({variables: {email: '1', password: '1'}})
+    data && login(data.loginByEmail)
   }, [login, loginMutation])
 
   useEffect(() => {

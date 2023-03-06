@@ -2,15 +2,15 @@ query hello {
   hello
 }
 
-mutation login($account: String, $password: String) {
-  login(account: $account, password: $password) {
-    token
+mutation loginByEmail($email: String!, $password: String!) {
+  loginByEmail(email: $email, password: $password) {
     userId
+    token
   }
 }
 
-mutation setHello($hello: String) {
-  setHello(hello: $hello)
+mutation sayHello($hello: String) {
+  sayHello(hello: $hello)
 }
 
 subscription helloWs($key: String) {

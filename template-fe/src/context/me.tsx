@@ -1,14 +1,14 @@
 import {noop} from 'lodash-es'
-import React, {PropsWithChildren, useCallback, useContext, useState} from 'react'
-import {LoginMutation} from '../generated/codegen'
+import {createContext, PropsWithChildren, useCallback, useContext, useState} from 'react'
+import {LoginByEmailMutation} from '../generated'
 
 type MeContextShape = {
-  login: (data: LoginMutation['login']) => void
+  login: (data: LoginByEmailMutation['loginByEmail']) => void
   user?: {id: string}
 }
 
 const authTokenKey = 'authToken'
-const MeContext = React.createContext<MeContextShape>({login: noop})
+const MeContext = createContext<MeContextShape>({login: noop})
 
 export const authTokenStorage = {
   get: () => localStorage.getItem(authTokenKey),

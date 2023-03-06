@@ -5,7 +5,7 @@ generates:
     plugins:
       - introspection:
           minify: true
-  src/generated/codegen.ts:
+  src/generated/apollo.ts:
     plugins:
       - add:
           content:

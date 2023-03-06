@@ -1,7 +1,7 @@
 schema:
-  - http://localhost:4000/graphql
+  - http://localhost:80
 documents:
-  - src/**/*.gql
+  - src/graphql/*.gql
 config:
   enumsAsTypes: true
   onlyOperationTypes: true
@@ -9,10 +9,10 @@ config:
     Void: undefined
     Date: number
 generates:
-  src/generated/schema.graphql:
+  src/generated/schema.gql:
     plugins:
       - schema-ast
-  src/generated/codegen.ts:
+  src/generated/apollo.ts:
     plugins:
       - add:
           content: '/* eslint-disable */'
