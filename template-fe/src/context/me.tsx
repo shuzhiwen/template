@@ -1,6 +1,6 @@
-import {noop} from 'lodash-es'
 import {createContext, PropsWithChildren, useCallback, useContext, useState} from 'react'
-import {LoginByEmailMutation} from '../generated'
+import {LoginByEmailMutation} from '@generated'
+import {noop} from 'lodash-es'
 
 type MeContextShape = {
   login: (data: LoginByEmailMutation['loginByEmail']) => void

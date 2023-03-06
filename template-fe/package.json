@@ -5,9 +5,8 @@
   "homepage": ".",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
     "preview": "vite preview",
-    "build": "yarn tsc2 && vite build",
-    "tsc2": "yarn tsc && rm tsconfig.tsbuildinfo",
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {

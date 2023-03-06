@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "target": "ESNext",
     "module": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "Node",
     "useDefineForClassFields": true,
     "declaration": true,
     "allowJs": true,
@@ -13,12 +16,12 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "Node",
     "isolatedModules": true,
-    "jsx": "react-jsx",
     "composite": true,
-    "rootDir": "src",
-    "outDir": "dist"
+    "baseUrl": ".",
+    "paths": {
+      "@*": ["./src/*"]
+    }
   },
   "include": ["src"]
 }

@@ -2,13 +2,13 @@ import {noop} from 'lodash-es'
 import {useCallback, useEffect, useState} from 'react'
 import {Button, TextField, Typography} from '@mui/material'
 import {Stack} from '@mui/system'
-import {useMe} from '../context'
+import {useMe} from '@context'
 import {
   useHelloQuery,
   useHelloWsSubscription,
   useLoginByEmailMutation,
   useSayHelloMutation,
-} from '../generated'
+} from '@generated'
 
 export function Entry() {
   const {user, login} = useMe()
