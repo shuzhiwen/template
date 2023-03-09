@@ -1,5 +1,9 @@
 schema:
   - './src/schema/*.gql'
+config:
+  scalars:
+    Void: undefined
+    Date: number
 generates:
   src/generated/introspection.json:
     plugins:

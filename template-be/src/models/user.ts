@@ -14,20 +14,22 @@ export class UserModel extends ModelBase {
 
   constructor() {
     super()
-    this.dbUser = db.collection('user')
-    // catch errors
     this.createUser = this.catch(this.createUser)
     this.getUserById = this.catch(this.getUserById)
-    this.getUserByEmailAndPassword = this.catch(this.getUserByEmailAndPassword)
-    this.resetPasswordOfUser = this.catch(this.resetPasswordOfUser)
+    this.getUserByEmailPassword = this.catch(this.getUserByEmailPassword, 'auth')
+    this.resetPasswordOfUser = this.catch(this.resetPasswordOfUser, 'auth')
+
+    this.dbUser = db.collection('user')
   }
 
   async createUser(props: Pick<User, 'email' | 'password'>) {
     const {email, password} = props
+
     if (await this.dbUser.findOne({email})) {
       throw new Error('This email address has been registered')
     }
     await this.dbUser.insertOne({email, password, name: `user_${randomCode()}`})
+
     return await this.dbUser.findOne({email})
   }
 
@@ -35,7 +37,7 @@ export class UserModel extends ModelBase {
     return await this.dbUser.findOne({_id: new ObjectId(userId)})
   }
 
-  async getUserByEmailAndPassword(email: string, password: string) {
+  async getUserByEmailPassword(email: string, password: string) {
     return await this.dbUser.findOne({email, password})
   }
 

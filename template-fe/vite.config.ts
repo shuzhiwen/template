@@ -4,6 +4,11 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/upload': 'http://localhost:80',
+    },
+  },
   resolve: {
     alias: {
       '@context': path.resolve(__dirname, './src/context'),

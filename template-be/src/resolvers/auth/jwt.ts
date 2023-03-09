@@ -8,7 +8,7 @@ export const loginByEmail = async (
   {userModel}: ApolloContext,
   {email, password}: MutationLoginByEmailArgs
 ) => {
-  const user = await userModel.getUserByEmailAndPassword(email, password)
+  const user = await userModel.getUserByEmailPassword(email, password)
   const userId = user?._id.toString()
 
   if (!userId) throw new AuthenticationError('Wrong user name or password')

@@ -1,3 +1,4 @@
+import path from 'path'
 import {sample} from 'lodash'
 
 export function randomCode(length = 6) {
@@ -5,4 +6,8 @@ export function randomCode(length = 6) {
     .fill(null)
     .map(() => sample('0123456789'))
     .join('')
+}
+
+export function randomFileName(originalname: string) {
+  return randomCode(8) + Date.now() + path.extname(originalname)
 }

@@ -1,7 +1,6 @@
 import {noop} from 'lodash-es'
 import {useCallback, useEffect, useState} from 'react'
-import {Button, TextField, Typography} from '@mui/material'
-import {Stack} from '@mui/system'
+import {Stack, Button, TextField, Typography} from '@mui/material'
 import {useMe} from '@context'
 import {
   useHelloQuery,
@@ -13,8 +12,8 @@ import {
 export function Entry() {
   const {user, login} = useMe()
   const [hello, setHello] = useState('')
-  const [loginMutation] = useLoginByEmailMutation()
-  const [helloMutation] = useSayHelloMutation()
+  const [sayHello] = useSayHelloMutation()
+  const [loginByEmail] = useLoginByEmailMutation()
   const {data: helloResult} = useHelloQuery({
     skip: !user,
   })
@@ -23,14 +22,28 @@ export function Entry() {
     variables: {key: 'test'},
   })
   const loginAccount = useCallback(async () => {
-    const {data} = await loginMutation({variables: {email: '1', password: '1'}})
-    data && login(data.loginByEmail)
-  }, [login, loginMutation])
+    const {data} = await loginByEmail({
+      variables: {
+        email: 'test@test.com',
+        password: '123456',
+      },
+    })
+    if (data?.loginByEmail) {
+      login(data.loginByEmail)
+    }
+  }, [login, loginByEmail])
+  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const formData = new FormData()
+    Array.from(event.target.files ?? []).forEach((file) => {
+      formData.append('files', file, file.name)
+    })
+    fetch('/upload', {method: 'PUT', body: formData})
+  }, [])
 
   useEffect(() => {
-    const timeout = hello && setTimeout(() => helloMutation({variables: {hello}}), 500)
+    const timeout = hello && setTimeout(() => sayHello({variables: {hello}}), 500)
     return () => clearTimeout(timeout)
-  }, [hello, helloMutation])
+  }, [hello, sayHello])
 
   return (
     <Stack spacing={2} p={6}>
@@ -44,6 +57,7 @@ export function Entry() {
       <Typography>
         This is the greeting sent by the client to the server: {helloWs?.helloWs}
       </Typography>
+      <input type="file" multiple onChange={onChange} />
     </Stack>
   )
 }
