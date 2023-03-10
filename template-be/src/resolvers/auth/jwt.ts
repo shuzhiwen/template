@@ -14,14 +14,14 @@ export const loginByEmail = async (
   if (!userId) throw new AuthenticationError('Wrong user name or password')
 
   return {
-    token: jwt.sign({userId} as JwtPayload, env.jwt.secret, {expiresIn: '7d'}),
+    token: jwt.sign({userId} as JwtPayload, env.auth.secret, {expiresIn: '7d'}),
     userId,
   }
 }
 
 export async function requireAuth({token, userModel}: ApolloContext) {
   try {
-    const decode = jwt.verify(token!, env.jwt.secret) as JwtPayload
+    const decode = jwt.verify(token!, env.auth.secret) as JwtPayload
     const user = await userModel.getUserById(decode.userId)
 
     if (!user) throw new AuthenticationError('No user matched')

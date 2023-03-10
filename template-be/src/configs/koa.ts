@@ -18,7 +18,7 @@ const upload = multer({
   },
   storage: multer.diskStorage({
     destination: function (_, __, callback) {
-      callback(null, path.join('temp/uploads'))
+      callback(null, path.join(env.file.path.uploads))
     },
     filename: function (_, file, callback) {
       callback(null, randomFileName(file.originalname))
@@ -54,8 +54,8 @@ export async function createKoaServer() {
   const httpServer = http.createServer(app.callback())
   const router = new Router()
 
-  router.get('/files(.*)', staticFileService(new FileModel()))
-  router.put('/upload(.*)', uploadService, upload.array('files', 100))
+  router.get(`${env.file.route.static}(.*)`, staticFileService(new FileModel()))
+  router.put(`${env.file.route.upload}(.*)`, uploadService, upload.array('files', 100))
 
   app.use(cors())
   app.use(bodyParser())

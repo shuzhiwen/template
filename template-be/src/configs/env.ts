@@ -1,20 +1,36 @@
 import {config} from 'dotenv'
+import {env as ne} from 'process'
 
 config()
 
 export const env = {
-  port: process.env.PORT || 80,
+  port: ne.PORT || 80,
   db: {
-    url: process.env.DB_URI || 'mongodb://127.0.0.1:27017',
+    url: ne.DB_URL || 'mongodb://127.0.0.1:27017',
   },
-  jwt: {
-    secret: process.env.JWT_SECRET || 'secret',
+  auth: {
+    secret: ne.JWT_SECRET || 'secret',
+  },
+  file: {
+    route: {
+      static: ne.FILE_ROUTE_STATIC || '/files',
+      upload: ne.FILE_ROUTE_UPLOAD || '/upload',
+    },
+    path: {
+      request: ne.FILE_PATH_REQUEST || 'temp/request',
+      storage: ne.FILE_PATH_STORAGE || 'temp/storage',
+      uploads: ne.FILE_PATH_UPLOADS || 'temp/uploads',
+    },
+    time: {
+      cleanup: ne.FILE_CLEANUP_INTERVAL || 24 * 60 * 60 * 1000,
+      reserve: ne.FILE_RESERVE_DURATION || 30 * 24 * 60 * 60 * 1000,
+    },
   },
   mail: {
-    host: process.env.MAIL_HOST,
+    host: ne.MAIL_HOST,
     auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
+      user: ne.MAIL_USER,
+      pass: ne.MAIL_PASS,
     },
   },
 }
