@@ -11,12 +11,13 @@ export class ModelBase {
     }
   }
 
-  catch<Fn extends AnyAsyncFunction>(fn: Fn, type?: ErrorType) {
-    return (async (...args: unknown[]) => {
+  protected catch<Fn extends AnyAsyncFunction>(fn: Fn, type?: ErrorType) {
+    ;(this as AnyObject)[fn.name] = (async (...args: unknown[]) => {
       try {
         return await fn.call(this, ...args)
       } catch (error) {
-        console.error(`Function: ${fn.name}\n`, error)
+        const message = `${this.constructor.name} Method(${fn.name}) Error\n`
+        console.error('\x1b[31m%s\x1b[0m', message, error)
         this.throwError(error as Error, type)
       }
     }) as Fn

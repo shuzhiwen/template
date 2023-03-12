@@ -2,6 +2,7 @@ import path from 'path'
 import {hostname} from 'os'
 import {promises as fs} from 'fs'
 import {randomFileName} from '@utils'
+import {IdInput, Image} from '@generated'
 import {ModelBase} from './base'
 import {env} from '@configs'
 
@@ -10,14 +11,18 @@ const config = env.file.path
 export class FileModel extends ModelBase {
   static cleaning = false
 
-  private cache: Map<string, string> = new Map()
+  private cache: Map<string, Image> = new Map()
 
   constructor() {
     super()
-    this.autoClear = this.catch(this.autoClear)
-    this.initialize = this.catch(this.initialize)
-    this.createTempFileByPermName = this.catch(this.createTempFileByPermName)
-    this.createPermFileByTempName = this.catch(this.createPermFileByTempName)
+    this.catch(this.autoClear)
+    this.catch(this.initialize)
+    this.catch(this.clearTempFiles)
+    this.catch(this.createTempFileByPermName)
+    this.catch(this.createPermFileByTempName)
+    this.catch(this.createTemporaryFiles)
+    this.catch(this.createPermanentFiles)
+    this.catch(this.requestFile)
     this.initialize(() => {
       if (!FileModel.cleaning) {
         FileModel.cleaning = true
@@ -38,19 +43,31 @@ export class FileModel extends ModelBase {
     setTimeout(() => this.autoClear(), Number(env.file.time.cleanup))
   }
 
-  async clearTempFiles() {
-    const files = await fs.readdir(config.request)
+  private async clearTempFiles() {
+    const configs = [
+      {baseUrl: config.uploads, files: await fs.readdir(config.uploads)},
+      {baseUrl: config.request, files: await fs.readdir(config.request)},
+    ]
 
-    files.forEach(async (file) => {
-      const status = await fs.stat(path.resolve(config.request, file))
-      if (Date.now() - status.atime.getTime() > Number(env.file.time.reserve)) {
-        fs.rm(file)
-      }
+    configs.forEach(({baseUrl, files}) => {
+      files.forEach(async (file) => {
+        const status = await fs.stat(path.resolve(baseUrl, file))
+        if (Date.now() - status.atime.getTime() > Number(env.file.time.reserve)) {
+          fs.rm(file)
+        }
+      })
     })
   }
 
-  async requestFile(url: string) {
-    return await fs.readFile(path.resolve(config.request, url))
+  private async createPermFileByTempName(name: string) {
+    const fileName = randomFileName(name)
+    const sourcePath = path.resolve(config.uploads, name)
+    const targetPath = path.resolve(config.storage, fileName)
+
+    await fs.access(sourcePath)
+    await fs.copyFile(sourcePath, targetPath)
+
+    return fileName
   }
 
   async createTempFileByPermName(name: string) {
@@ -64,20 +81,28 @@ export class FileModel extends ModelBase {
     await fs.copyFile(sourcePath, targetPath)
 
     const accessible = path.join(hostname(), 'files', fileName)
-    this.cache.set(name, accessible)
+    this.cache.set(name, {name: fileName, url: accessible})
 
-    return accessible
+    return this.cache.get(name)!
   }
 
-  async createPermFileByTempName(name: string) {
-    const fileName = randomFileName(name)
-    const sourcePath = path.resolve(config.uploads, name)
-    const targetPath = path.resolve(config.storage, fileName)
+  async requestFile(url: string) {
+    return await fs.readFile(path.resolve(config.request, url))
+  }
 
-    await fs.access(sourcePath)
-    await fs.copyFile(sourcePath, targetPath)
-    await fs.rm(sourcePath)
+  async createPermanentFiles(input: IdInput): Promise<string>
+  async createPermanentFiles(input: IdInput[]): Promise<string[]>
+  async createPermanentFiles(input: IdInput | IdInput[]) {
+    return Array.isArray(input)
+      ? Promise.all(input.map(({id}) => id).map(this.createPermFileByTempName))
+      : this.createPermFileByTempName(input.id)
+  }
 
-    return fileName
+  async createTemporaryFiles(input: IdInput): Promise<Image>
+  async createTemporaryFiles(input: IdInput[]): Promise<Image[]>
+  async createTemporaryFiles(input: IdInput | IdInput[]) {
+    return Array.isArray(input)
+      ? Promise.all(input.map(({id}) => id).map(this.createTempFileByPermName))
+      : this.createTempFileByPermName(input.id)
   }
 }

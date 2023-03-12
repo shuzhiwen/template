@@ -22,7 +22,7 @@ export const authMutation: MutationResolvers<ApolloContext, AnyObject> = {
     if (!emailAuthMapping.get(args.email)?.includes(args.verificationCode)) {
       throw new AuthenticationError('Wrong verification code')
     }
-    await userModel.resetPasswordOfUser(args.email, args.password)
+    await userModel.resetPasswordOfUserByEmail(args.email, args.password)
     return true
   },
 

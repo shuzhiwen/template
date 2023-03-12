@@ -1,9 +1,10 @@
 import {db} from '@configs'
+import {System} from '@generated'
 import {randomCode} from '@utils'
 import {Collection, ObjectId} from 'mongodb'
 import {ModelBase} from './base'
 
-type User = {
+interface User extends System {
   name: string
   email: string
   password: string
@@ -14,12 +15,11 @@ export class UserModel extends ModelBase {
 
   constructor() {
     super()
-    this.createUser = this.catch(this.createUser)
-    this.getUserById = this.catch(this.getUserById)
-    this.getUserByEmailPassword = this.catch(this.getUserByEmailPassword, 'auth')
-    this.resetPasswordOfUser = this.catch(this.resetPasswordOfUser, 'auth')
-
     this.dbUser = db.collection('user')
+    this.catch(this.createUser)
+    this.catch(this.getUserById)
+    this.catch(this.getUserByEmailPassword, 'auth')
+    this.catch(this.resetPasswordOfUserByEmail, 'auth')
   }
 
   async createUser(props: Pick<User, 'email' | 'password'>) {
@@ -28,7 +28,14 @@ export class UserModel extends ModelBase {
     if (await this.dbUser.findOne({email})) {
       throw new Error('This email address has been registered')
     }
-    await this.dbUser.insertOne({email, password, name: `user_${randomCode()}`})
+
+    await this.dbUser.insertOne({
+      email,
+      password,
+      name: `user_${randomCode()}`,
+      createTime: Date.now(),
+      updateTime: Date.now(),
+    })
 
     return await this.dbUser.findOne({email})
   }
@@ -41,7 +48,7 @@ export class UserModel extends ModelBase {
     return await this.dbUser.findOne({email, password})
   }
 
-  async resetPasswordOfUser(email: string, password: string) {
-    return await this.dbUser.updateOne({email}, {$set: {password}})
+  async resetPasswordOfUserByEmail(email: string, password: string) {
+    return await this.dbUser.updateOne({email}, {$set: {password, updateTime: Date.now()}})
   }
 }

@@ -24,6 +24,16 @@ export type AuthInfo = {
   userId: Scalars['String']
 }
 
+export type IdInput = {
+  id: Scalars['String']
+}
+
+export type Image = {
+  __typename?: 'Image'
+  name: Scalars['String']
+  url: Scalars['String']
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   loginByEmail: AuthInfo
@@ -70,6 +80,11 @@ export type Subscription = {
 
 export type SubscriptionHelloWsArgs = {
   key?: InputMaybe<Scalars['String']>
+}
+
+export type System = {
+  createTime: Scalars['Date']
+  updateTime: Scalars['Date']
 }
 
 export type WithIndex<TObject> = TObject & Record<string, any>
@@ -162,10 +177,13 @@ export type ResolversTypes = ResolversObject<{
   AuthInfo: ResolverTypeWrapper<AuthInfo>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   Date: ResolverTypeWrapper<Scalars['Date']>
+  IdInput: IdInput
+  Image: ResolverTypeWrapper<Image>
   Mutation: ResolverTypeWrapper<{}>
   Query: ResolverTypeWrapper<{}>
   String: ResolverTypeWrapper<Scalars['String']>
   Subscription: ResolverTypeWrapper<{}>
+  System: never
   Void: ResolverTypeWrapper<Scalars['Void']>
 }>
 
@@ -174,10 +192,13 @@ export type ResolversParentTypes = ResolversObject<{
   AuthInfo: AuthInfo
   Boolean: Scalars['Boolean']
   Date: Scalars['Date']
+  IdInput: IdInput
+  Image: Image
   Mutation: {}
   Query: {}
   String: Scalars['String']
   Subscription: {}
+  System: never
   Void: Scalars['Void']
 }>
 
@@ -193,6 +214,15 @@ export type AuthInfoResolvers<
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date'
 }
+
+export type ImageResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']
+> = ResolversObject<{
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}>
 
 export type MutationResolvers<
   ContextType = ApolloContext,
@@ -250,6 +280,15 @@ export type SubscriptionResolvers<
   >
 }>
 
+export type SystemResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes['System'] = ResolversParentTypes['System']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<null, ParentType, ContextType>
+  createTime?: Resolver<ResolversTypes['Date'], ParentType, ContextType>
+  updateTime?: Resolver<ResolversTypes['Date'], ParentType, ContextType>
+}>
+
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void'
 }
@@ -257,8 +296,10 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
   AuthInfo?: AuthInfoResolvers<ContextType>
   Date?: GraphQLScalarType
+  Image?: ImageResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
   Subscription?: SubscriptionResolvers<ContextType>
+  System?: SystemResolvers<ContextType>
   Void?: GraphQLScalarType
 }>

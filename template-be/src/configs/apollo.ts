@@ -8,10 +8,10 @@ import {addMocksToSchema} from '@graphql-tools/mock'
 import {makeExecutableSchema} from '@graphql-tools/schema'
 import {ApolloServer, ApolloServerPlugin} from '@apollo/server'
 import {ApolloServerPluginDrainHttpServer} from '@apollo/server/plugin/drainHttpServer'
+import {FileModel, UserModel} from '@models'
 import {introspection} from '@generated'
 import {ApolloContext} from '@types'
 import {resolvers} from '@resolvers'
-import {UserModel} from '@models'
 
 const AutoCloseWebSocket = (disposable: Disposable): ApolloServerPlugin => ({
   serverWillStart: async () => ({
@@ -54,6 +54,7 @@ export async function createApolloServer(httpServer: http.Server) {
     context: async ({ctx}) => ({
       token: ctx.headers.authorization?.split(' ')[1],
       userModel: new UserModel(),
+      fileModel: new FileModel(),
     }),
   })
 }

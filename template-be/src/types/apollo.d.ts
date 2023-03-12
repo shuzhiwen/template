@@ -1,10 +1,11 @@
-import {UserModel} from '@models'
+import {FileModel, UserModel} from '@models'
+
+export type JwtPayload = {
+  userId: string
+}
 
 export type ApolloContext = {
   token: Maybe<string>
   userModel: UserModel
-}
-
-export type JwtPayload = {
-  userId: string
+  fileModel: FileModel
 }

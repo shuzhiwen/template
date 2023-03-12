@@ -2,6 +2,20 @@ scalar Void
 
 scalar Date
 
+interface System {
+  createTime: Date!
+  updateTime: Date!
+}
+
+input IdInput {
+  id: String!
+}
+
+type Image {
+  name: String!
+  url: String!
+}
+
 type Query {
   hello: String!
 }
