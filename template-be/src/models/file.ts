@@ -1,5 +1,4 @@
 import path from 'path'
-import {hostname} from 'os'
 import {promises as fs} from 'fs'
 import {randomFileName} from '@utils'
 import {IdInput, Image} from '@generated'
@@ -8,10 +7,10 @@ import {env} from '@configs'
 
 const config = env.file.path
 
+const cache: Map<string, Image> = new Map()
+
 export class FileModel extends ModelBase {
   static cleaning = false
-
-  private cache: Map<string, Image> = new Map()
 
   constructor() {
     super()
@@ -71,7 +70,7 @@ export class FileModel extends ModelBase {
   }
 
   async createTempFileByPermName(name: string) {
-    if (this.cache.has(name)) return this.cache.get(name)!
+    if (cache.has(name)) return cache.get(name)!
 
     const fileName = randomFileName(name)
     const sourcePath = path.resolve(config.storage, name)
@@ -80,10 +79,10 @@ export class FileModel extends ModelBase {
     await fs.access(sourcePath)
     await fs.copyFile(sourcePath, targetPath)
 
-    const accessible = path.join(hostname(), 'files', fileName)
-    this.cache.set(name, {name: fileName, url: accessible})
+    const accessible = path.join(env.host, 'files', fileName)
+    cache.set(name, {name: fileName, url: accessible})
 
-    return this.cache.get(name)!
+    return cache.get(name)!
   }
 
   async requestFile(url: string) {
