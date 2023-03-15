@@ -9,53 +9,43 @@ const config = env.file.path
 
 const cache: Map<string, Image> = new Map()
 
-export class FileModel extends ModelBase {
-  static cleaning = false
+async function clearTempFiles() {
+  const configs = [
+    {baseUrl: config.uploads, files: await fs.readdir(config.uploads)},
+    {baseUrl: config.request, files: await fs.readdir(config.request)},
+  ]
+  configs.forEach(({baseUrl, files}) => {
+    files.forEach(async (file) => {
+      const status = await fs.stat(path.resolve(baseUrl, file))
+      if (Date.now() - status.atime.getTime() > Number(env.file.time.reserve)) {
+        cache.delete(file)
+        fs.rm(file)
+      }
+    })
+  })
+}
 
+;(function autoClear() {
+  clearTempFiles()
+  setTimeout(() => autoClear(), Number(env.file.time.cleanup))
+})()
+
+export class FileModel extends ModelBase {
   constructor() {
     super()
-    this.catch(this.autoClear)
     this.catch(this.initialize)
-    this.catch(this.clearTempFiles)
     this.catch(this.createTempFileByPermName)
     this.catch(this.createPermFileByTempName)
     this.catch(this.createTemporaryFiles)
     this.catch(this.createPermanentFiles)
     this.catch(this.requestFile)
-    this.initialize(() => {
-      if (!FileModel.cleaning) {
-        FileModel.cleaning = true
-        this.autoClear()
-      }
-    })
   }
 
   private async initialize(callback: () => void) {
-    await fs.mkdir(config.request, {recursive: true})
-    await fs.mkdir(config.storage, {recursive: true})
-    await fs.mkdir(config.uploads, {recursive: true})
+    await fs.mkdir(config.request, {recursive: true, mode: 0o644})
+    await fs.mkdir(config.storage, {recursive: true, mode: 0o644})
+    await fs.mkdir(config.uploads, {recursive: true, mode: 0o644})
     callback()
-  }
-
-  private async autoClear() {
-    this.clearTempFiles()
-    setTimeout(() => this.autoClear(), Number(env.file.time.cleanup))
-  }
-
-  private async clearTempFiles() {
-    const configs = [
-      {baseUrl: config.uploads, files: await fs.readdir(config.uploads)},
-      {baseUrl: config.request, files: await fs.readdir(config.request)},
-    ]
-
-    configs.forEach(({baseUrl, files}) => {
-      files.forEach(async (file) => {
-        const status = await fs.stat(path.resolve(baseUrl, file))
-        if (Date.now() - status.atime.getTime() > Number(env.file.time.reserve)) {
-          fs.rm(file)
-        }
-      })
-    })
   }
 
   private async createPermFileByTempName(name: string) {
