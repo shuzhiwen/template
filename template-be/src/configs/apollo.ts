@@ -1,4 +1,5 @@
 import http from 'http'
+import {Context} from 'koa'
 import {WebSocketServer} from 'ws'
 import {Disposable} from 'graphql-ws'
 import {buildClientSchema} from 'graphql'
@@ -13,12 +14,6 @@ import {introspection} from '@generated'
 import {ApolloContext} from '@types'
 import {resolvers} from '@resolvers'
 
-const AutoCloseWebSocket = (disposable: Disposable): ApolloServerPlugin => ({
-  serverWillStart: async () => ({
-    drainServer: async () => await disposable.dispose(),
-  }),
-})
-
 const mocks = {
   Int: () => 8,
   Float: () => 3.45,
@@ -26,6 +21,18 @@ const mocks = {
   Date: () => new Date(),
   Void: () => undefined,
 }
+
+const AutoCloseWebSocket = (disposable: Disposable): ApolloServerPlugin => ({
+  serverWillStart: async () => ({
+    drainServer: async () => await disposable.dispose(),
+  }),
+})
+
+export const createContext = (ctx: Context) => ({
+  token: ctx.headers.authorization?.split(' ')[1],
+  userModel: new UserModel(),
+  fileModel: new FileModel(),
+})
 
 export async function createApolloServer(httpServer: http.Server) {
   const schema = makeExecutableSchema({
@@ -51,10 +58,6 @@ export async function createApolloServer(httpServer: http.Server) {
   await apolloServer.start()
 
   return koaMiddleware<ApolloContext>(apolloServer, {
-    context: async ({ctx}) => ({
-      token: ctx.headers.authorization?.split(' ')[1],
-      userModel: new UserModel(),
-      fileModel: new FileModel(),
-    }),
+    context: async ({ctx}) => createContext(ctx),
   })
 }

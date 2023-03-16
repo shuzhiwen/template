@@ -5,7 +5,8 @@ import cors from '@koa/cors'
 import multer from '@koa/multer'
 import Router from '@koa/router'
 import bodyParser from 'koa-bodyparser'
-import {createApolloServer} from './apollo'
+import {requireAuth} from '@resolvers'
+import {createApolloServer, createContext} from './apollo'
 import {randomFileName} from '@utils'
 import {FileModel} from '@models'
 import {env} from './env'
@@ -40,6 +41,7 @@ const staticFileService = (model: FileModel) => async (ctx: Koa.Context) => {
 
 const uploadService = async (ctx: Koa.Context, next: Koa.Next) => {
   try {
+    await requireAuth(createContext(ctx))
     await next()
     ctx.body = (ctx.files as multer.File[]).map((file) => file.filename)
     ctx.status = 200
