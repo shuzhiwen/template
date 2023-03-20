@@ -5,11 +5,10 @@ import cors from '@koa/cors'
 import multer from '@koa/multer'
 import Router from '@koa/router'
 import bodyParser from 'koa-bodyparser'
-import {requireAuth} from '@resolvers'
-import {createApolloServer, createContext} from './apollo'
+import {createApolloServer, createContext, env} from '@configs'
 import {randomFileName} from '@utils'
+import {requireAuth} from '@resolvers'
 import {FileModel} from '@models'
-import {env} from './env'
 
 const supportedFileTypes = ['image/png', 'image/jpg', 'image/jpeg']
 
