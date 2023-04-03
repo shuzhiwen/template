@@ -38,7 +38,7 @@ export class FileModel extends ModelBase {
     await fs.access(sourcePath)
     await fs.copyFile(sourcePath, targetPath)
 
-    const accessible = path.join(env.host, 'files', fileName)
+    const accessible = new URL(path.join('files', fileName), env.host).toString()
     fileCache.set(name, {name: fileName, url: accessible})
 
     return fileCache.get(name)!
