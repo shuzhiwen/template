@@ -5,14 +5,14 @@ import {QueryResolvers, MutationResolvers, SubscriptionResolvers} from '@generat
 import {helloWorld, pubsub} from '../mock'
 import {requireAuth} from '../auth/jwt'
 
-export const helloQuery: QueryResolvers<ApolloContext, AnyObject> = {
+export const helloQuery: QueryResolvers<ApolloContext> = {
   hello: async (_, __, ctx) => {
     await requireAuth(ctx)
     return helloWorld
   },
 }
 
-export const helloMutation: MutationResolvers<ApolloContext, AnyObject> = {
+export const helloMutation: MutationResolvers<ApolloContext> = {
   sayHello: async (_, args, ctx) => {
     await requireAuth(ctx)
     if (args.hello) {
@@ -23,7 +23,7 @@ export const helloMutation: MutationResolvers<ApolloContext, AnyObject> = {
   },
 }
 
-export const helloSubscription: SubscriptionResolvers<ApolloContext, AnyObject> = {
+export const helloSubscription: SubscriptionResolvers<ApolloContext> = {
   helloWs: {
     resolve: (payload: string) => payload,
     subscribe: () => ({

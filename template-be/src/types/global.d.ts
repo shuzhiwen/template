@@ -6,8 +6,6 @@ type Maybe<T> = T | null | undefined
 
 type MaybeGroup<T> = Maybe<T | T[]>
 
-type AnyObject = Record<string, any>
-
 type AnyAsyncFunction<T = unknown> = (...args: any) => Promise<T>
 
 type AsyncReturnType<T> = T extends Promise<infer V> ? V : never

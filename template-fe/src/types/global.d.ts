@@ -6,8 +6,6 @@ type Maybe<T> = T | null | undefined
 
 type MaybeGroup<T> = Maybe<T | T[]>
 
-type AnyObject = Record<string, any>
-
 type Padding<T = number> = [T, T, T, T]
 
 type AnyFunction<T = unknown> = (...args: any) => T

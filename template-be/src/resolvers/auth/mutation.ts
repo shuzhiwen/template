@@ -6,7 +6,7 @@ import {sendEmail} from './email'
 
 const emailCodeCache = new Map<string, string[]>()
 
-export const authMutation: MutationResolvers<ApolloContext, AnyObject> = {
+export const authMutation: MutationResolvers<ApolloContext> = {
   loginByEmail: async (_, args, ctx) => {
     return await loginByEmail(ctx, args)
   },

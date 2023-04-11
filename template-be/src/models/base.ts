@@ -12,7 +12,7 @@ export class ModelBase {
   }
 
   protected catch<Fn extends AnyAsyncFunction>(fn: Fn, type?: ErrorType) {
-    ;(this as AnyObject)[fn.name] = (async (...args: unknown[]) => {
+    ;(this as any)[fn.name] = (async (...args: unknown[]) => {
       try {
         return await fn.call(this, ...args)
       } catch (error) {
