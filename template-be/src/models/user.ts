@@ -4,7 +4,7 @@ import {randomCode} from '@utils'
 import {Collection, ObjectId} from 'mongodb'
 import {ModelBase} from './base'
 
-interface User extends System {
+export interface User extends System {
   name: string
   email: string
   password: string

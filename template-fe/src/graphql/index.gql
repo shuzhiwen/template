@@ -13,6 +13,6 @@ mutation sayHello($hello: String) {
   sayHello(hello: $hello)
 }
 
-subscription helloWs($key: String) {
-  helloWs(key: $key)
+subscription helloWs {
+  helloWs
 }

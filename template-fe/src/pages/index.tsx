@@ -10,23 +10,15 @@ import {
 } from '@generated'
 
 export function Entry() {
-  const {user, login} = useMe()
+  const {token, login} = useMe()
   const [hello, setHello] = useState('')
   const [sayHello] = useSayHelloMutation()
   const [loginByEmail] = useLoginByEmailMutation()
-  const {data: helloResult} = useHelloQuery({
-    skip: !user,
-  })
-  const {data: helloWs} = useHelloWsSubscription({
-    skip: !user,
-    variables: {key: 'test'},
-  })
+  const {data: helloResult} = useHelloQuery({skip: !token})
+  const {data: helloWs} = useHelloWsSubscription({skip: !token})
   const loginAccount = useCallback(async () => {
     const {data} = await loginByEmail({
-      variables: {
-        email: 'test@test.com',
-        password: '123456',
-      },
+      variables: {email: 'yuwenmiao@qq.com', password: '123456'},
     })
     if (data?.loginByEmail) {
       login(data.loginByEmail)
@@ -47,7 +39,7 @@ export function Entry() {
 
   return (
     <Stack spacing={2} p={6}>
-      <Button onClick={user ? noop : loginAccount}>{user ? 'Logged' : 'Login'}</Button>
+      <Button onClick={token ? noop : loginAccount}>{token ? 'Logged' : 'Login'}</Button>
       <TextField
         placeholder="Say hello to server here..."
         value={hello}

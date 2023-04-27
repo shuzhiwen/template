@@ -6,18 +6,3 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #191919;
 }
-
-@font-face {
-  font-family: pangmen;
-  src: url('./assets/fonts/pangmen.ttf');
-}
-
-@font-face {
-  font-family: pixel;
-  src: url('./assets/fonts/pixel.ttf');
-}
-
-.m-center {
-  display: grid;
-  place-items: center;
-}

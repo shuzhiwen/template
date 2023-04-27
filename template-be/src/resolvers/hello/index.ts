@@ -1,9 +1,11 @@
-import {get} from 'lodash'
+import {MutationResolvers, QueryResolvers, SubscriptionResolvers} from '@generated'
+import {PubSub, withFilter} from 'graphql-subscriptions'
 import {ApolloContext} from '@types'
-import {withFilter} from 'graphql-subscriptions'
-import {QueryResolvers, MutationResolvers, SubscriptionResolvers} from '@generated'
-import {helloWorld, pubsub} from '../mock'
 import {requireAuth} from '../auth/jwt'
+
+const helloWorld = 'Template is now available!'
+
+const pubsub = new PubSub()
 
 export const helloQuery: QueryResolvers<ApolloContext> = {
   hello: async (_, __, ctx) => {
@@ -23,15 +25,13 @@ export const helloMutation: MutationResolvers<ApolloContext> = {
   },
 }
 
-export const helloSubscription: SubscriptionResolvers<ApolloContext> = {
+export const helloSubscription: SubscriptionResolvers = {
   helloWs: {
     resolve: (payload: string) => payload,
-    subscribe: () => ({
+    subscribe: (_, __, ctx) => ({
       [Symbol.asyncIterator]: withFilter(
         () => pubsub.asyncIterator(['HELLO']),
-        (payload, variables) => {
-          return get(payload, 'key') === get(variables, 'key')
-        }
+        () => !!ctx.token
       ),
     }),
   },

@@ -78,10 +78,6 @@ export type Subscription = {
   helloWs: Scalars['String']
 }
 
-export type SubscriptionHelloWsArgs = {
-  key?: InputMaybe<Scalars['String']>
-}
-
 export type System = {
   createTime: Scalars['Date']
   updateTime: Scalars['Date']
@@ -271,13 +267,7 @@ export type SubscriptionResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
 > = ResolversObject<{
-  helloWs?: SubscriptionResolver<
-    ResolversTypes['String'],
-    'helloWs',
-    ParentType,
-    ContextType,
-    Partial<SubscriptionHelloWsArgs>
-  >
+  helloWs?: SubscriptionResolver<ResolversTypes['String'], 'helloWs', ParentType, ContextType>
 }>
 
 export type SystemResolvers<

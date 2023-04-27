@@ -25,5 +25,5 @@ type Mutation {
 }
 
 type Subscription {
-  helloWs(key: String): String!
+  helloWs: String!
 }

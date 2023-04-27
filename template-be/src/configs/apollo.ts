@@ -8,8 +8,8 @@ import {addMocksToSchema} from '@graphql-tools/mock'
 import {makeExecutableSchema} from '@graphql-tools/schema'
 import {ApolloServer, ApolloServerPlugin} from '@apollo/server'
 import * as Plugin from '@apollo/server/plugin/drainHttpServer'
+import {createWsContext, createContext} from '@configs'
 import {introspection} from '@generated'
-import {createContext} from '@configs'
 import {ApolloContext} from '@types'
 import {resolvers} from '@resolvers'
 
@@ -44,7 +44,7 @@ export async function createApolloServer(httpServer: http.Server) {
     }),
     plugins: [
       Plugin.ApolloServerPluginDrainHttpServer({httpServer}),
-      AutoCloseWebSocket(useServer({schema}, wsServer)),
+      AutoCloseWebSocket(useServer({schema, context: createWsContext}, wsServer)),
     ],
   })
 

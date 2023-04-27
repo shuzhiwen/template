@@ -8,6 +8,15 @@ Date custom scalar type
 """
 scalar Date
 
+input IdInput {
+  id: String!
+}
+
+type Image {
+  name: String!
+  url: String!
+}
+
 type Mutation {
   loginByEmail(email: String!, password: String!): AuthInfo!
   logonByEmail(email: String!, password: String!, verificationCode: String!): AuthInfo!
@@ -21,7 +30,12 @@ type Query {
 }
 
 type Subscription {
-  helloWs(key: String): String!
+  helloWs: String!
+}
+
+interface System {
+  createTime: Date!
+  updateTime: Date!
 }
 
 """

@@ -1,34 +1,26 @@
-import {createContext, PropsWithChildren, useCallback, useContext, useState} from 'react'
-import {LoginByEmailMutation} from '@generated'
 import {noop} from 'lodash-es'
+import {PropsWithChildren, createContext, useCallback, useContext, useState} from 'react'
+import {LoginByEmailMutation} from '@generated'
 
 type MeContextShape = {
   login: (data: LoginByEmailMutation['loginByEmail']) => void
-  user?: {id: string}
+  userId?: string
+  token?: string
 }
 
-const authTokenKey = 'authToken'
-const MeContext = createContext<MeContextShape>({login: noop})
+export const MeContext = createContext<MeContextShape>({login: noop})
 
-export const authTokenStorage = {
-  get: () => localStorage.getItem(authTokenKey),
-  set: (value: string) => localStorage.setItem(authTokenKey, value),
-  remove: () => localStorage.removeItem(authTokenKey),
-}
+export const useMe = () => useContext(MeContext)
 
-export function useMe() {
-  return useContext(MeContext)
-}
-
-export function MeProvider(props: PropsWithChildren<unknown>) {
-  const [user, setUser] = useState<MeContextShape['user']>()
-  const login = useCallback<MeContextShape['login']>((data) => {
-    authTokenStorage.set(data.token)
-    setUser({id: data.userId})
-  }, [])
+export function MeProvider(props: PropsWithChildren) {
+  const [context, setContext] = useState<Omit<MeContextShape, 'login'>>()
+  const login = useCallback<MeContextShape['login']>(
+    ({token, userId}) => setContext({token, userId}),
+    []
+  )
 
   return (
-    <MeContext.Provider value={{user, login}}>
+    <MeContext.Provider value={{...context, login}}>
       <>{props.children}</>
     </MeContext.Provider>
   )

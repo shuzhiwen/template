@@ -18,6 +18,10 @@ export type Scalars = {
   Void: undefined
 }
 
+export type IdInput = {
+  id: Scalars['String']
+}
+
 export type HelloQueryVariables = Exact<{[key: string]: never}>
 
 export type HelloQuery = {__typename?: 'Query'; hello: string}
@@ -38,9 +42,7 @@ export type SayHelloMutationVariables = Exact<{
 
 export type SayHelloMutation = {__typename?: 'Mutation'; sayHello: boolean}
 
-export type HelloWsSubscriptionVariables = Exact<{
-  key?: InputMaybe<Scalars['String']>
-}>
+export type HelloWsSubscriptionVariables = Exact<{[key: string]: never}>
 
 export type HelloWsSubscription = {__typename?: 'Subscription'; helloWs: string}
 
@@ -166,8 +168,8 @@ export type SayHelloMutationOptions = Apollo.BaseMutationOptions<
   SayHelloMutationVariables
 >
 export const HelloWsDocument = gql`
-  subscription helloWs($key: String) {
-    helloWs(key: $key)
+  subscription helloWs {
+    helloWs
   }
 `
 
@@ -183,7 +185,6 @@ export const HelloWsDocument = gql`
  * @example
  * const { data, loading, error } = useHelloWsSubscription({
  *   variables: {
- *      key: // value for 'key'
  *   },
  * });
  */

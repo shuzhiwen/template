@@ -19,14 +19,17 @@ export const loginByEmail = async (
   }
 }
 
-export async function requireAuth({token, userModel}: ApolloContext) {
+export async function requireAuth(ctx: ApolloContext) {
   try {
+    const {token, userModel} = ctx
     const decode = jwt.verify(token!, env.auth.secret) as JwtPayload
     const user = await userModel.getUserById(decode.userId)
 
-    if (!user) throw new AuthenticationError('No user matched')
-
-    return user
+    if (!user) {
+      throw new AuthenticationError('No user matched')
+    } else {
+      return user
+    }
   } catch (error) {
     throw new AuthenticationError('Token parsing failed')
   }
