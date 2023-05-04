@@ -10,7 +10,14 @@ import {randomFileName} from '@utils'
 import {requireAuth} from '@resolvers'
 import {FileModel} from '@models'
 
-const supportedFileTypes = ['image/png', 'image/jpg', 'image/jpeg']
+const supportedFileTypes = [
+  'image/png',
+  'image/jpg',
+  'image/jpeg',
+  'video/mp4',
+  'video/x-msvideo',
+  'video/quicktime',
+]
 
 const upload = multer({
   limits: {

@@ -24,13 +24,20 @@ export function Entry() {
       login(data.loginByEmail)
     }
   }, [login, loginByEmail])
-  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const formData = new FormData()
-    Array.from(event.target.files ?? []).forEach((file) => {
-      formData.append('files', file, file.name)
-    })
-    fetch('/upload', {method: 'PUT', body: formData})
-  }, [])
+  const onChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const formData = new FormData()
+      Array.from(event.target.files ?? []).forEach((file) => {
+        formData.append('files', file, file.name)
+      })
+      fetch('/upload', {
+        method: 'PUT',
+        headers: {authorization: `Token ${token}`},
+        body: formData,
+      })
+    },
+    [token]
+  )
 
   useEffect(() => {
     const timeout = hello && setTimeout(() => sayHello({variables: {hello}}), 500)
