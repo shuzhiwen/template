@@ -6,7 +6,7 @@ const client = new MongoClient(env.db.url)
 client
   .connect()
   .then(() => client.db('test').command({ping: 1}))
-  .then(() => console.log('🚀 Connected successfully to server'))
+  .then(() => console.log('🚀 Connected successfully to database service'))
   .catch(console.error)
 
 export const db = client.db('test')

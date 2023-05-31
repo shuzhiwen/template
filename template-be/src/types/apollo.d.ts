@@ -9,3 +9,13 @@ export type ApolloContext = {
   userModel: UserModel
   fileModel: FileModel
 }
+
+export type QueryArgs<F extends object> = Partial<{
+  limit: Maybe<number>
+  offset: Maybe<number>
+  filter: Maybe<
+    F & {
+      search?: Maybe<string>
+    }
+  >
+}>

@@ -4,7 +4,6 @@ import {helloQuery, helloMutation, helloSubscription} from './hello'
 import {authMutation} from './auth/mutation'
 
 export * from './auth/jwt'
-export * from './mock'
 
 export const resolvers: Resolvers = {
   Date: dateScalar,
