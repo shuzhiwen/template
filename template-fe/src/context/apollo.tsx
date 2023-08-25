@@ -1,18 +1,18 @@
-import {onError} from '@apollo/client/link/error'
+import {
+  ApolloClient,
+  HttpLink,
+  InMemoryCache,
+  ApolloProvider as RawApolloProvider,
+  from,
+  split,
+} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
+import {onError} from '@apollo/client/link/error'
 import {GraphQLWsLink} from '@apollo/client/link/subscriptions'
 import {getMainDefinition} from '@apollo/client/utilities'
 import {OperationDefinitionNode} from 'graphql'
 import {createClient} from 'graphql-ws'
 import {PropsWithChildren} from 'react'
-import {
-  ApolloClient,
-  ApolloProvider as RawApolloProvider,
-  from,
-  HttpLink,
-  InMemoryCache,
-  split,
-} from '@apollo/client'
 import {useMe} from './me'
 
 const HOST = 'localhost:80'
@@ -48,7 +48,9 @@ function useClient() {
   })
   const networkLink = split(
     ({query}) => {
-      const {kind, operation} = getMainDefinition(query) as OperationDefinitionNode
+      const {kind, operation} = getMainDefinition(
+        query
+      ) as OperationDefinitionNode
       return kind === 'OperationDefinition' && operation === 'subscription'
     },
     wsLink,

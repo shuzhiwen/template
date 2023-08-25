@@ -18,7 +18,7 @@ export class ModelBase {
       } catch (error) {
         const message = `${this.constructor.name} Method(${fn.name}) Error\n`
         console.error('\x1b[31m%s\x1b[0m', message, error)
-        this.throwError(error as Error, type)
+        return this.throwError(error as Error, type)
       }
     }) as Fn
   }

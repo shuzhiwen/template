@@ -1,7 +1,7 @@
-import path from 'path'
-import {ObjectId} from 'mongodb'
 import {QueryArgs} from '@types'
 import {isNil, sample} from 'lodash'
+import {ObjectId} from 'mongodb'
+import path from 'path'
 
 export function randomCode(length = 6) {
   return new Array(length)
@@ -19,7 +19,9 @@ export function withId<T extends {_id: ObjectId}>(data: T) {
 }
 
 export function removeNullable<T extends object>(data: T) {
-  return Object.fromEntries(Object.entries(data).filter((_, v) => !isNil(v))) as {
+  return Object.fromEntries(
+    Object.entries(data).filter((_, v) => !isNil(v))
+  ) as {
     [key in keyof T]: NonNullable<T[key]>
   }
 }

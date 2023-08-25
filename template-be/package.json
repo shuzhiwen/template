@@ -58,7 +58,6 @@
     "webpack-node-externals": "^3.0.0"
   },
   "prettier": {
-    "printWidth": 100,
     "trailingComma": "es5",
     "bracketSpacing": false,
     "jsxBracketSameLine": false,

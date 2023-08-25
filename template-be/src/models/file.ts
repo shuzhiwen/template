@@ -1,8 +1,8 @@
-import path from 'path'
 import {env} from '@configs'
-import {promises as fs} from 'fs'
-import {randomFileName} from '@utils'
 import {IdInput, Image} from '@generated'
+import {randomFileName} from '@utils'
+import {promises as fs} from 'fs'
+import path from 'path'
 import {ModelBase} from './base'
 
 export const fileCache: Map<string, Image> = new Map()
@@ -38,7 +38,10 @@ export class FileModel extends ModelBase {
     await fs.access(sourcePath)
     await fs.copyFile(sourcePath, targetPath)
 
-    const accessible = new URL(path.join('files', fileName), env.host).toString()
+    const accessible = new URL(
+      path.join('files', fileName),
+      env.host
+    ).toString()
     fileCache.set(name, {name: fileName, url: accessible})
 
     return fileCache.get(name)!

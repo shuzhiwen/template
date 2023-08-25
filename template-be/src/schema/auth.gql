@@ -5,7 +5,15 @@ type AuthInfo {
 
 type Mutation {
   loginByEmail(email: String!, password: String!): AuthInfo!
-  logonByEmail(email: String!, verificationCode: String!, password: String!): AuthInfo!
-  resetPasswordByEmail(email: String!, verificationCode: String!, password: String!): Boolean!
+  logonByEmail(
+    email: String!
+    verificationCode: String!
+    password: String!
+  ): AuthInfo!
+  resetPasswordByEmail(
+    email: String!
+    verificationCode: String!
+    password: String!
+  ): Boolean!
   sendEmailVerificationCode(email: String!): Boolean
 }

@@ -456,7 +456,11 @@
                 "ofType": {
                   "kind": "NON_NULL",
                   "name": null,
-                  "ofType": {"kind": "ENUM", "name": "__DirectiveLocation", "ofType": null}
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "__DirectiveLocation",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -485,7 +489,11 @@
                 "ofType": {
                   "kind": "NON_NULL",
                   "name": null,
-                  "ofType": {"kind": "OBJECT", "name": "__InputValue", "ofType": null}
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "__InputValue",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -721,7 +729,11 @@
                 "ofType": {
                   "kind": "NON_NULL",
                   "name": null,
-                  "ofType": {"kind": "OBJECT", "name": "__InputValue", "ofType": null}
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "__InputValue",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -911,7 +923,11 @@
                 "ofType": {
                   "kind": "NON_NULL",
                   "name": null,
-                  "ofType": {"kind": "OBJECT", "name": "__Directive", "ofType": null}
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "__Directive",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -1041,7 +1057,11 @@
               "ofType": {
                 "kind": "NON_NULL",
                 "name": null,
-                "ofType": {"kind": "OBJECT", "name": "__EnumValue", "ofType": null}
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "__EnumValue",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1066,7 +1086,11 @@
               "ofType": {
                 "kind": "NON_NULL",
                 "name": null,
-                "ofType": {"kind": "OBJECT", "name": "__InputValue", "ofType": null}
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "__InputValue",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,

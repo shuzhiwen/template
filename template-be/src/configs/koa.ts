@@ -1,14 +1,14 @@
-import Koa from 'koa'
-import http from 'http'
-import path from 'path'
+import {createApolloServer, createContext, env} from '@configs'
 import cors from '@koa/cors'
 import multer from '@koa/multer'
 import Router from '@koa/router'
-import bodyParser from 'koa-bodyparser'
-import {createApolloServer, createContext, env} from '@configs'
-import {randomFileName} from '@utils'
-import {requireAuth} from '@resolvers'
 import {FileModel} from '@models'
+import {requireAuth} from '@resolvers'
+import {randomFileName} from '@utils'
+import http from 'http'
+import Koa from 'koa'
+import bodyParser from 'koa-bodyparser'
+import path from 'path'
 
 const supportedFileTypes = [
   'image/png',
@@ -63,7 +63,11 @@ export async function createKoaServer() {
   const router = new Router()
 
   router.get(`${env.file.route.static}(.*)`, staticFileService(new FileModel()))
-  router.put(`${env.file.route.upload}(.*)`, uploadService, upload.array('files', 100))
+  router.put(
+    `${env.file.route.upload}(.*)`,
+    uploadService,
+    upload.array('files', 100)
+  )
 
   app.use(cors())
   app.use(bodyParser())

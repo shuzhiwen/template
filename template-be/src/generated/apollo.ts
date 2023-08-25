@@ -1,12 +1,22 @@
 /* eslint-disable */
 import {ApolloContext} from '@types'
-import {GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig} from 'graphql'
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from 'graphql'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends {[key: string]: unknown}> = {[K in keyof T]: T[K]}
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]?: Maybe<T[SubKey]>}
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]: Maybe<T[SubKey]>}
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & {[P in K]-?: NonNullable<T[P]>}
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>
+}
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>
+}
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: NonNullable<T[P]>
+}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string
@@ -123,8 +133,18 @@ export interface SubscriptionSubscriberObject<
   TContext,
   TArgs
 > {
-  subscribe: SubscriptionSubscribeFn<{[key in TKey]: TResult}, TParent, TContext, TArgs>
-  resolve?: SubscriptionResolveFn<TResult, {[key in TKey]: TResult}, TContext, TArgs>
+  subscribe: SubscriptionSubscribeFn<
+    {[key in TKey]: TResult},
+    TParent,
+    TContext,
+    TArgs
+  >
+  resolve?: SubscriptionResolveFn<
+    TResult,
+    {[key in TKey]: TResult},
+    TContext,
+    TArgs
+  >
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -132,7 +152,13 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>
 }
 
-export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
+export type SubscriptionObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs
+> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>
 
@@ -143,7 +169,9 @@ export type SubscriptionResolver<
   TContext = {},
   TArgs = {}
 > =
-  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+  | ((
+      ...args: any[]
+    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
@@ -160,7 +188,12 @@ export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
 
 export type NextResolverFn<T> = () => Promise<T>
 
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
+export type DirectiveResolverFn<
+  TResult = {},
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
@@ -207,7 +240,8 @@ export type AuthInfoResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
-export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+export interface DateScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date'
 }
 
@@ -234,13 +268,19 @@ export type MutationResolvers<
     ResolversTypes['AuthInfo'],
     ParentType,
     ContextType,
-    RequireFields<MutationLogonByEmailArgs, 'email' | 'password' | 'verificationCode'>
+    RequireFields<
+      MutationLogonByEmailArgs,
+      'email' | 'password' | 'verificationCode'
+    >
   >
   resetPasswordByEmail?: Resolver<
     ResolversTypes['Boolean'],
     ParentType,
     ContextType,
-    RequireFields<MutationResetPasswordByEmailArgs, 'email' | 'password' | 'verificationCode'>
+    RequireFields<
+      MutationResetPasswordByEmailArgs,
+      'email' | 'password' | 'verificationCode'
+    >
   >
   sayHello?: Resolver<
     ResolversTypes['Boolean'],
@@ -267,7 +307,12 @@ export type SubscriptionResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
 > = ResolversObject<{
-  helloWs?: SubscriptionResolver<ResolversTypes['String'], 'helloWs', ParentType, ContextType>
+  helloWs?: SubscriptionResolver<
+    ResolversTypes['String'],
+    'helloWs',
+    ParentType,
+    ContextType
+  >
 }>
 
 export type SystemResolvers<
@@ -279,7 +324,8 @@ export type SystemResolvers<
   updateTime?: Resolver<ResolversTypes['Date'], ParentType, ContextType>
 }>
 
-export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
+export interface VoidScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void'
 }
 

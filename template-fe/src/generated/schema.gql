@@ -19,8 +19,16 @@ type Image {
 
 type Mutation {
   loginByEmail(email: String!, password: String!): AuthInfo!
-  logonByEmail(email: String!, password: String!, verificationCode: String!): AuthInfo!
-  resetPasswordByEmail(email: String!, password: String!, verificationCode: String!): Boolean!
+  logonByEmail(
+    email: String!
+    password: String!
+    verificationCode: String!
+  ): AuthInfo!
+  resetPasswordByEmail(
+    email: String!
+    password: String!
+    verificationCode: String!
+  ): Boolean!
   sayHello(hello: String): Boolean!
   sendEmailVerificationCode(email: String!): Boolean
 }

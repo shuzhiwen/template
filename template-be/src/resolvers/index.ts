@@ -1,7 +1,7 @@
 import {Resolvers} from '@generated'
-import {dateScalar, voidScalar} from './scalar'
-import {helloQuery, helloMutation, helloSubscription} from './hello'
 import {authMutation} from './auth/mutation'
+import {helloMutation, helloQuery, helloSubscription} from './hello'
+import {dateScalar, voidScalar} from './scalar'
 
 export * from './auth/jwt'
 

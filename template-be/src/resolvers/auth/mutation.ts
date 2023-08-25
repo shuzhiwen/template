@@ -1,8 +1,8 @@
-import {ApolloContext} from '@types'
 import {MutationResolvers} from '@generated'
+import {ApolloContext} from '@types'
 import {AuthenticationError} from '@utils'
-import {loginByEmail} from './jwt'
 import {sendEmail} from './email'
+import {loginByEmail} from './jwt'
 
 const emailCodeCache = new Map<string, string[]>()
 

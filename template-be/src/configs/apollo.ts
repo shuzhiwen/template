@@ -1,17 +1,17 @@
-import http from 'http'
-import {WebSocketServer} from 'ws'
-import {Disposable} from 'graphql-ws'
-import {buildClientSchema} from 'graphql'
-import {useServer} from 'graphql-ws/lib/use/ws'
-import {koaMiddleware} from '@as-integrations/koa'
-import {addMocksToSchema} from '@graphql-tools/mock'
-import {makeExecutableSchema} from '@graphql-tools/schema'
 import {ApolloServer, ApolloServerPlugin} from '@apollo/server'
 import * as Plugin from '@apollo/server/plugin/drainHttpServer'
-import {createWsContext, createContext} from '@configs'
+import {koaMiddleware} from '@as-integrations/koa'
+import {createContext, createWsContext} from '@configs'
 import {introspection} from '@generated'
-import {ApolloContext} from '@types'
+import {addMocksToSchema} from '@graphql-tools/mock'
+import {makeExecutableSchema} from '@graphql-tools/schema'
 import {resolvers} from '@resolvers'
+import {ApolloContext} from '@types'
+import {buildClientSchema} from 'graphql'
+import {Disposable} from 'graphql-ws'
+import {useServer} from 'graphql-ws/lib/use/ws'
+import http from 'http'
+import {WebSocketServer} from 'ws'
 
 const mocks = {
   Int: () => 8,
@@ -44,7 +44,9 @@ export async function createApolloServer(httpServer: http.Server) {
     }),
     plugins: [
       Plugin.ApolloServerPluginDrainHttpServer({httpServer}),
-      AutoCloseWebSocket(useServer({schema, context: createWsContext}, wsServer)),
+      AutoCloseWebSocket(
+        useServer({schema, context: createWsContext}, wsServer)
+      ),
     ],
   })
 

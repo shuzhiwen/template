@@ -49,6 +49,9 @@ export class UserModel extends ModelBase {
   }
 
   async resetPasswordOfUserByEmail(email: string, password: string) {
-    return await this.dbUser.updateOne({email}, {$set: {password, updateTime: Date.now()}})
+    return await this.dbUser.updateOne(
+      {email},
+      {$set: {password, updateTime: Date.now()}}
+    )
   }
 }

@@ -1,7 +1,7 @@
-import {Context} from 'koa'
-import {Context as WsContext} from 'graphql-ws'
-import {UserModel, FileModel} from '@models'
+import {FileModel, UserModel} from '@models'
 import {ApolloContext} from '@types'
+import {Context as WsContext} from 'graphql-ws'
+import {Context} from 'koa'
 
 export function createContext(ctx: Context): ApolloContext {
   return {

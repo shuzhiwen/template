@@ -1,6 +1,6 @@
+import {LoginByEmailMutation} from '@generated'
 import {noop} from 'lodash-es'
 import {PropsWithChildren, createContext, useCallback, useContext} from 'react'
-import {LoginByEmailMutation} from '@generated'
 import {useLocalStorage} from 'react-use'
 
 type Context = {
@@ -14,7 +14,10 @@ export const useMe = () => useContext(MeContext)
 
 export function MeProvider(props: PropsWithChildren) {
   const [token, setToken] = useLocalStorage<string>('AUTH_TOKEN')
-  const login = useCallback<Context['login']>(({token}) => setToken(token), [setToken])
+  const login = useCallback<Context['login']>(
+    ({token}) => setToken(token),
+    [setToken]
+  )
 
   return (
     <MeContext.Provider value={{token, login}}>

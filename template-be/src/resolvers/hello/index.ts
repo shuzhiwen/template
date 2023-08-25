@@ -1,6 +1,10 @@
-import {MutationResolvers, QueryResolvers, SubscriptionResolvers} from '@generated'
-import {PubSub, withFilter} from 'graphql-subscriptions'
+import {
+  MutationResolvers,
+  QueryResolvers,
+  SubscriptionResolvers,
+} from '@generated'
 import {ApolloContext} from '@types'
+import {PubSub, withFilter} from 'graphql-subscriptions'
 import {requireAuth} from '../auth/jwt'
 
 const helloWorld = 'Template is now available!'

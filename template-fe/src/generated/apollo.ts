@@ -4,8 +4,12 @@ import * as Apollo from '@apollo/client'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends {[key: string]: unknown}> = {[K in keyof T]: T[K]}
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]?: Maybe<T[SubKey]>}
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]: Maybe<T[SubKey]>}
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>
+}
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>
+}
 const defaultOptions = {} as const
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -71,17 +75,26 @@ export function useHelloQuery(
   baseOptions?: Apollo.QueryHookOptions<HelloQuery, HelloQueryVariables>
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useQuery<HelloQuery, HelloQueryVariables>(HelloDocument, options)
+  return Apollo.useQuery<HelloQuery, HelloQueryVariables>(
+    HelloDocument,
+    options
+  )
 }
 export function useHelloLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<HelloQuery, HelloQueryVariables>
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useLazyQuery<HelloQuery, HelloQueryVariables>(HelloDocument, options)
+  return Apollo.useLazyQuery<HelloQuery, HelloQueryVariables>(
+    HelloDocument,
+    options
+  )
 }
 export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>
 export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>
-export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>
+export type HelloQueryResult = Apollo.QueryResult<
+  HelloQuery,
+  HelloQueryVariables
+>
 export const LoginByEmailDocument = gql`
   mutation loginByEmail($email: String!, $password: String!) {
     loginByEmail(email: $email, password: $password) {
@@ -114,16 +127,22 @@ export type LoginByEmailMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useLoginByEmailMutation(
-  baseOptions?: Apollo.MutationHookOptions<LoginByEmailMutation, LoginByEmailMutationVariables>
+  baseOptions?: Apollo.MutationHookOptions<
+    LoginByEmailMutation,
+    LoginByEmailMutationVariables
+  >
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useMutation<LoginByEmailMutation, LoginByEmailMutationVariables>(
-    LoginByEmailDocument,
-    options
-  )
+  return Apollo.useMutation<
+    LoginByEmailMutation,
+    LoginByEmailMutationVariables
+  >(LoginByEmailDocument, options)
 }
-export type LoginByEmailMutationHookResult = ReturnType<typeof useLoginByEmailMutation>
-export type LoginByEmailMutationResult = Apollo.MutationResult<LoginByEmailMutation>
+export type LoginByEmailMutationHookResult = ReturnType<
+  typeof useLoginByEmailMutation
+>
+export type LoginByEmailMutationResult =
+  Apollo.MutationResult<LoginByEmailMutation>
 export type LoginByEmailMutationOptions = Apollo.BaseMutationOptions<
   LoginByEmailMutation,
   LoginByEmailMutationVariables
@@ -156,10 +175,16 @@ export type SayHelloMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useSayHelloMutation(
-  baseOptions?: Apollo.MutationHookOptions<SayHelloMutation, SayHelloMutationVariables>
+  baseOptions?: Apollo.MutationHookOptions<
+    SayHelloMutation,
+    SayHelloMutationVariables
+  >
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useMutation<SayHelloMutation, SayHelloMutationVariables>(SayHelloDocument, options)
+  return Apollo.useMutation<SayHelloMutation, SayHelloMutationVariables>(
+    SayHelloDocument,
+    options
+  )
 }
 export type SayHelloMutationHookResult = ReturnType<typeof useSayHelloMutation>
 export type SayHelloMutationResult = Apollo.MutationResult<SayHelloMutation>
@@ -189,13 +214,19 @@ export const HelloWsDocument = gql`
  * });
  */
 export function useHelloWsSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<HelloWsSubscription, HelloWsSubscriptionVariables>
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    HelloWsSubscription,
+    HelloWsSubscriptionVariables
+  >
 ) {
   const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useSubscription<HelloWsSubscription, HelloWsSubscriptionVariables>(
-    HelloWsDocument,
-    options
-  )
+  return Apollo.useSubscription<
+    HelloWsSubscription,
+    HelloWsSubscriptionVariables
+  >(HelloWsDocument, options)
 }
-export type HelloWsSubscriptionHookResult = ReturnType<typeof useHelloWsSubscription>
-export type HelloWsSubscriptionResult = Apollo.SubscriptionResult<HelloWsSubscription>
+export type HelloWsSubscriptionHookResult = ReturnType<
+  typeof useHelloWsSubscription
+>
+export type HelloWsSubscriptionResult =
+  Apollo.SubscriptionResult<HelloWsSubscription>
