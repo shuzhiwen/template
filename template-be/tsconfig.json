@@ -2,10 +2,6 @@
   "compilerOptions": {
     "outDir": "dist",
     "types": ["node"],
-    "target": "ESNext",
-    "module": "NodeNext",
-    "lib": ["es5", "es6", "ESNext"],
-    "moduleResolution": "node",
     "allowJs": true,
     "alwaysStrict": true,
     "resolveJsonModule": true,

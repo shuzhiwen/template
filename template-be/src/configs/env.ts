@@ -34,4 +34,8 @@ export const env = {
       pass: ne.MAIL_PASS,
     },
   },
+  https: {
+    key: ne.SSL_KEY,
+    cert: ne.SSL_CERT,
+  },
 }
