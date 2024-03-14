@@ -1,4 +1,4 @@
-import {FileModel, UserModel} from '@models'
+import {FileModel, UserModel} from '@/models'
 
 export type JwtPayload = {
   userId: string

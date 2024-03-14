@@ -1,5 +1,5 @@
-import {ErrorType} from '@types'
-import {AuthenticationError} from '@utils'
+import {ErrorType} from '@/types'
+import {AuthenticationError} from '@/utils'
 
 export class ModelBase {
   private throwError(error: Error, type?: ErrorType) {
@@ -12,7 +12,7 @@ export class ModelBase {
   }
 
   protected catch<Fn extends AnyAsyncFunction>(fn: Fn, type?: ErrorType) {
-    ;(this as any)[fn.name] = (async (...args: unknown[]) => {
+    ;(this as any)[fn.name] = async (...args: unknown[]) => {
       try {
         return await fn.call(this, ...args)
       } catch (error) {
@@ -20,6 +20,6 @@ export class ModelBase {
         console.error('\x1b[31m%s\x1b[0m', message, error)
         return this.throwError(error as Error, type)
       }
-    }) as Fn
+    }
   }
 }

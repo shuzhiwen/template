@@ -1,6 +1,6 @@
-import {db} from '@configs'
-import {System} from '@generated'
-import {randomCode} from '@utils'
+import {db} from '@/configs'
+import {System} from '@/generated'
+import {randomCode} from '@/utils'
 import {Collection, ObjectId} from 'mongodb'
 import {ModelBase} from './base'
 

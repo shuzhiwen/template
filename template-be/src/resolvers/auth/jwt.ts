@@ -1,7 +1,7 @@
-import {env} from '@configs'
-import {MutationLoginByEmailArgs} from '@generated'
-import {ApolloContext, JwtPayload} from '@types'
-import {AuthenticationError} from '@utils'
+import {env} from '@/configs'
+import {MutationLoginByEmailArgs} from '@/generated'
+import {ApolloContext, JwtPayload} from '@/types'
+import {AuthenticationError} from '@/utils'
 import jwt from 'jsonwebtoken'
 
 export const loginByEmail = async (
@@ -11,7 +11,9 @@ export const loginByEmail = async (
   const user = await userModel.getUserByEmailPassword(email, password)
   const userId = user?._id.toString()
 
-  if (!userId) throw new AuthenticationError('Wrong user name or password')
+  if (!userId) {
+    throw new AuthenticationError('Wrong user name or password')
+  }
 
   return {
     token: jwt.sign({userId} as JwtPayload, env.auth.secret, {expiresIn: '7d'}),

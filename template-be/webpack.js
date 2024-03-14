@@ -15,12 +15,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@configs': path.resolve(__dirname, 'dist/configs'),
-      '@generated': path.resolve(__dirname, 'dist/generated'),
-      '@models': path.resolve(__dirname, 'dist/models'),
-      '@resolvers': path.resolve(__dirname, 'dist/resolvers'),
-      '@tasks': path.resolve(__dirname, 'dist/tasks'),
-      '@utils': path.resolve(__dirname, 'dist/utils'),
+      '@': path.resolve(__dirname, 'dist'),
     },
   },
   externals: [nodeExternals()],

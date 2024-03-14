@@ -1,4 +1,4 @@
-import {QueryArgs} from '@types'
+import {QueryArgs} from '@/types'
 import {isNil, sample} from 'lodash'
 import {ObjectId} from 'mongodb'
 import path from 'path'

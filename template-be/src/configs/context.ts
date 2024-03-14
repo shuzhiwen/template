@@ -1,5 +1,5 @@
-import {FileModel, UserModel} from '@models'
-import {ApolloContext} from '@types'
+import {FileModel, UserModel} from '@/models'
+import {ApolloContext} from '@/types'
 import {Context as WsContext} from 'graphql-ws'
 import {Context} from 'koa'
 

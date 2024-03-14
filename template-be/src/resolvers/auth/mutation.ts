@@ -1,6 +1,6 @@
-import {MutationResolvers} from '@generated'
-import {ApolloContext} from '@types'
-import {AuthenticationError} from '@utils'
+import {MutationResolvers} from '@/generated'
+import {ApolloContext} from '@/types'
+import {AuthenticationError} from '@/utils'
 import {sendEmail} from './email'
 import {loginByEmail} from './jwt'
 

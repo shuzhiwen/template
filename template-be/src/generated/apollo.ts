@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {ApolloContext} from '@types'
+import {ApolloContext} from '@/types'
 import {
   GraphQLResolveInfo,
   GraphQLScalarType,
@@ -131,7 +131,7 @@ export interface SubscriptionSubscriberObject<
   TKey extends string,
   TParent,
   TContext,
-  TArgs
+  TArgs,
 > {
   subscribe: SubscriptionSubscribeFn<
     {[key in TKey]: TResult},
@@ -157,7 +157,7 @@ export type SubscriptionObject<
   TKey extends string,
   TParent,
   TContext,
-  TArgs
+  TArgs,
 > =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>
@@ -167,7 +167,7 @@ export type SubscriptionResolver<
   TKey extends string,
   TParent = {},
   TContext = {},
-  TArgs = {}
+  TArgs = {},
 > =
   | ((
       ...args: any[]
@@ -192,7 +192,7 @@ export type DirectiveResolverFn<
   TResult = {},
   TParent = {},
   TContext = {},
-  TArgs = {}
+  TArgs = {},
 > = (
   next: NextResolverFn<TResult>,
   parent: TParent,
@@ -233,7 +233,8 @@ export type ResolversParentTypes = ResolversObject<{
 
 export type AuthInfoResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes['AuthInfo'] = ResolversParentTypes['AuthInfo']
+  ParentType extends
+    ResolversParentTypes['AuthInfo'] = ResolversParentTypes['AuthInfo'],
 > = ResolversObject<{
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
@@ -247,7 +248,8 @@ export interface DateScalarConfig
 
 export type ImageResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']
+  ParentType extends
+    ResolversParentTypes['Image'] = ResolversParentTypes['Image'],
 > = ResolversObject<{
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>
@@ -256,7 +258,8 @@ export type ImageResolvers<
 
 export type MutationResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
+  ParentType extends
+    ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation'],
 > = ResolversObject<{
   loginByEmail?: Resolver<
     ResolversTypes['AuthInfo'],
@@ -298,14 +301,16 @@ export type MutationResolvers<
 
 export type QueryResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
+  ParentType extends
+    ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
 > = ResolversObject<{
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>
 }>
 
 export type SubscriptionResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
+  ParentType extends
+    ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription'],
 > = ResolversObject<{
   helloWs?: SubscriptionResolver<
     ResolversTypes['String'],
@@ -317,7 +322,8 @@ export type SubscriptionResolvers<
 
 export type SystemResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes['System'] = ResolversParentTypes['System']
+  ParentType extends
+    ResolversParentTypes['System'] = ResolversParentTypes['System'],
 > = ResolversObject<{
   __resolveType: TypeResolveFn<null, ParentType, ContextType>
   createTime?: Resolver<ResolversTypes['Date'], ParentType, ContextType>

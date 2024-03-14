@@ -1,23 +1,22 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
     "outDir": "dist",
-    "types": ["node"],
     "allowJs": true,
     "alwaysStrict": true,
     "resolveJsonModule": true,
+    "moduleResolution": "Node",
     "declaration": false,
     "esModuleInterop": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
     "removeComments": true,
     "pretty": true,
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@*": ["./src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"],

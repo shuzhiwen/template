@@ -14,7 +14,7 @@ generates:
       - add:
           content:
             - /* eslint-disable */
-            - import {ApolloContext} from '@types'
+            - import {ApolloContext} from '@/types'
           placement: 'prepend'
       - 'typescript'
       - 'typescript-resolvers'
