@@ -1,4 +1,4 @@
-import {LoginByEmailMutation} from '@generated'
+import {LoginByEmailMutation} from '@/generated'
 import {noop} from 'lodash-es'
 import {PropsWithChildren, createContext, useCallback, useContext} from 'react'
 import {useLocalStorage} from 'react-use'

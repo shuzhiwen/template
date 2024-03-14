@@ -1,10 +1,10 @@
-import {useMe} from '@context'
+import {useMe} from '@/context'
 import {
   useHelloQuery,
   useHelloWsSubscription,
   useLoginByEmailMutation,
   useSayHelloMutation,
-} from '@generated'
+} from '@/generated'
 import {Button, Stack, TextField, Typography} from '@mui/material'
 import {noop} from 'lodash-es'
 import {useCallback, useEffect, useState} from 'react'
