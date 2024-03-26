@@ -6,6 +6,7 @@ import cors from '@koa/cors'
 import multer from '@koa/multer'
 import Router from '@koa/router'
 import fs from 'fs'
+import http from 'http'
 import https from 'https'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
@@ -58,14 +59,24 @@ const uploadService = async (ctx: Koa.Context, next: Koa.Next) => {
   }
 }
 
+function createHttpServer(listener: ReturnType<Koa['callback']>) {
+  try {
+    fs.accessSync(env.https.key!)
+    fs.accessSync(env.https.cert!)
+    const options = {
+      key: fs.readFileSync(env.https.key!),
+      cert: fs.readFileSync(env.https.cert!),
+    }
+    return https.createServer(options, listener)
+  } catch {
+    return http.createServer({}, listener)
+  }
+}
+
 export async function createKoaServer() {
   const app = new Koa()
-  const options = {
-    key: fs.readFileSync(env.https.key!),
-    cert: fs.readFileSync(env.https.cert!),
-  }
-  const httpServer = https.createServer(options, app.callback())
   const router = new Router()
+  const httpServer = createHttpServer(app.callback())
 
   router.get(`${env.file.route.static}(.*)`, staticFileService(new FileModel()))
   router.put(
