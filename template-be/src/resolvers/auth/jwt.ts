@@ -1,7 +1,7 @@
 import {env} from '@/configs'
 import {MutationLoginByEmailArgs} from '@/generated'
 import {ApolloContext, JwtPayload} from '@/types'
-import {AuthenticationError} from '@/utils'
+import {AuthenticationError, withId} from '@/utils'
 import jwt from 'jsonwebtoken'
 
 export const loginByEmail = async (
@@ -21,17 +21,14 @@ export const loginByEmail = async (
   }
 }
 
-export async function requireAuth(ctx: ApolloContext) {
+export async function requireAuth({token, userModel}: ApolloContext) {
   try {
-    const {token, userModel} = ctx
     const decode = jwt.verify(token!, env.auth.secret) as JwtPayload
     const user = await userModel.getUserById(decode.userId)
 
-    if (!user) {
-      throw new AuthenticationError('No user matched')
-    } else {
-      return user
-    }
+    if (!user) throw new AuthenticationError('No user matched')
+
+    return withId(user)
   } catch (error) {
     throw new AuthenticationError('Token parsing failed')
   }

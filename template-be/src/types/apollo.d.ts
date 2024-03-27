@@ -1,3 +1,4 @@
+import {System} from '@/generated'
 import {FileModel, UserModel} from '@/models'
 
 export type JwtPayload = {
@@ -10,7 +11,9 @@ export type ApolloContext = {
   fileModel: FileModel
 }
 
-export type QueryArgs<F extends object> = Partial<{
+export type WithoutSystem<T> = Omit<T, keyof System>
+
+export type QueryArgs<F extends object = {}> = Partial<{
   limit: Maybe<number>
   offset: Maybe<number>
   filter: Maybe<
