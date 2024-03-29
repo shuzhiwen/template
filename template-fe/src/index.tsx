@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')!).render(
     <MeProvider>
       <ApolloProvider>
         <BrowserRouter>
-          <Suspense fallback={<div className="m-center">加载中...</div>}>
+          <Suspense fallback={<div className="center">loading...</div>}>
             <Routes>
               <Route path="/" Component={Entry}></Route>
             </Routes>
