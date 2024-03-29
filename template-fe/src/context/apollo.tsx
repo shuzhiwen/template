@@ -1,3 +1,4 @@
+import {useToken} from '@/hooks'
 import {
   ApolloClient,
   HttpLink,
@@ -13,7 +14,6 @@ import {getMainDefinition} from '@apollo/client/utilities'
 import {OperationDefinitionNode} from 'graphql'
 import {createClient} from 'graphql-ws'
 import {PropsWithChildren} from 'react'
-import {useMe} from './me'
 
 const HOST = 'localhost:80'
 
@@ -28,7 +28,7 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 })
 
 function useClient() {
-  const {token = ''} = useMe()
+  const [token] = useToken()
   const wsLink = new GraphQLWsLink(
     createClient({
       url: `ws://${HOST}${GRAPHQL_SERVER}`,

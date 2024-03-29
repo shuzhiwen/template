@@ -1,16 +1,16 @@
-import {useMe} from '@/context'
 import {
   useHelloQuery,
   useHelloWsSubscription,
   useLoginByEmailMutation,
   useSayHelloMutation,
 } from '@/generated'
+import {useToken} from '@/hooks'
 import {Button, Stack, TextField, Typography} from '@mui/material'
 import {noop} from 'lodash-es'
 import {useCallback, useEffect, useState} from 'react'
 
 export function Entry() {
-  const {token, login} = useMe()
+  const [token, setToken] = useToken()
   const [hello, setHello] = useState('')
   const [sayHello] = useSayHelloMutation()
   const [loginByEmail] = useLoginByEmailMutation()
@@ -21,9 +21,9 @@ export function Entry() {
       variables: {email: 'yuwenmiao@qq.com', password: '123456'},
     })
     if (data?.loginByEmail) {
-      login(data.loginByEmail)
+      setToken(data.loginByEmail.token)
     }
-  }, [login, loginByEmail])
+  }, [loginByEmail, setToken])
   const onChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const formData = new FormData()
