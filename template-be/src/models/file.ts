@@ -12,12 +12,12 @@ export class FileModel extends ModelBase {
     super()
     this.catch(this.createTempFileByPermName)
     this.catch(this.createPermFileByTempName)
-    this.catch(this.createTemporaryFiles)
-    this.catch(this.createPermanentFiles)
+    this.catch(this.createTemporaryFile)
+    this.catch(this.createPermanentFile)
     this.catch(this.requestFile)
   }
 
-  private async createPermFileByTempName(name: string) {
+  private async createPermFileByTempName(name: string): Promise<IdInput> {
     const fileName = randomFileName(name)
     const sourcePath = path.resolve(env.file.path.uploads, name)
     const targetPath = path.resolve(env.file.path.storage, fileName)
@@ -25,10 +25,10 @@ export class FileModel extends ModelBase {
     await fs.access(sourcePath)
     await fs.copyFile(sourcePath, targetPath)
 
-    return fileName
+    return {id: fileName}
   }
 
-  async createTempFileByPermName(name: string) {
+  private async createTempFileByPermName(name: string): Promise<Image> {
     if (fileCache.has(name)) return fileCache.get(name)!
 
     const fileName = randomFileName(name)
@@ -51,17 +51,17 @@ export class FileModel extends ModelBase {
     return await fs.readFile(path.resolve(env.file.path.request, url))
   }
 
-  async createPermanentFiles(input: IdInput): Promise<string>
-  async createPermanentFiles(input: IdInput[]): Promise<string[]>
-  async createPermanentFiles(input: IdInput | IdInput[]) {
+  async createPermanentFile(input: IdInput): Promise<IdInput>
+  async createPermanentFile(input: IdInput[]): Promise<IdInput[]>
+  async createPermanentFile(input: IdInput | IdInput[]) {
     return Array.isArray(input)
       ? Promise.all(input.map(({id}) => id).map(this.createPermFileByTempName))
       : this.createPermFileByTempName(input.id)
   }
 
-  async createTemporaryFiles(input: IdInput): Promise<Image>
-  async createTemporaryFiles(input: IdInput[]): Promise<Image[]>
-  async createTemporaryFiles(input: IdInput | IdInput[]) {
+  async createTemporaryFile(input: IdInput): Promise<Image>
+  async createTemporaryFile(input: IdInput[]): Promise<Image[]>
+  async createTemporaryFile(input: IdInput | IdInput[]) {
     return Array.isArray(input)
       ? Promise.all(input.map(({id}) => id).map(this.createTempFileByPermName))
       : this.createTempFileByPermName(input.id)
