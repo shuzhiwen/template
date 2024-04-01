@@ -13,7 +13,7 @@ export type ApolloContext = {
 
 export type WithoutSystem<T> = Omit<T, keyof System>
 
-export type QueryArgs<F extends object = {}> = Partial<{
+export type QueryArgs<F extends object = object> = Partial<{
   limit: Maybe<number>
   offset: Maybe<number>
   filter: Maybe<
