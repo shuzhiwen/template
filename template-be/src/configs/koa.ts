@@ -1,7 +1,7 @@
 import {createApolloServer, createContext, env} from '@/configs'
+import {randomFileName} from '@/helpers'
 import {FileModel} from '@/models'
 import {requireAuth} from '@/resolvers'
-import {randomFileName} from '@/utils'
 import cors from '@koa/cors'
 import multer from '@koa/multer'
 import Router from '@koa/router'

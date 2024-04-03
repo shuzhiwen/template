@@ -1,5 +1,5 @@
+import {AuthenticationError} from '@/helpers'
 import {ErrorType} from '@/types'
-import {AuthenticationError} from '@/utils'
 
 export class ModelBase {
   private throwError(error: Error, type?: ErrorType) {

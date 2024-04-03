@@ -1,5 +1,5 @@
 import {env} from '@/configs'
-import {randomCode} from '@/utils'
+import {randomCode} from '@/helpers'
 import nodemailer from 'nodemailer'
 
 export async function sendEmail(to: string) {

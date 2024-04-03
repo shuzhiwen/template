@@ -4,7 +4,7 @@ import {
   useLoginByEmailMutation,
   useSayHelloMutation,
 } from '@/generated'
-import {useToken} from '@/hooks'
+import {useToken} from '@/helpers'
 import {Button, Stack, TextField, Typography} from '@mui/material'
 import {noop} from 'lodash-es'
 import {useCallback, useEffect, useState} from 'react'

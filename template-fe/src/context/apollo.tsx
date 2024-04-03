@@ -1,4 +1,4 @@
-import {useToken} from '@/hooks'
+import {useToken} from '@/helpers'
 import {
   ApolloClient,
   HttpLink,

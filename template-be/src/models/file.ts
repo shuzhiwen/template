@@ -1,6 +1,6 @@
 import {env} from '@/configs'
 import {IdInput, Image} from '@/generated'
-import {randomFileName} from '@/utils'
+import {randomFileName} from '@/helpers'
 import {promises as fs} from 'fs'
 import path from 'path'
 import {ModelBase} from './base'

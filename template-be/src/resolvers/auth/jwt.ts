@@ -1,7 +1,7 @@
 import {env} from '@/configs'
 import {MutationLoginByEmailArgs} from '@/generated'
+import {AuthenticationError, withId} from '@/helpers'
 import {ApolloContext, JwtPayload} from '@/types'
-import {AuthenticationError, withId} from '@/utils'
 import jwt from 'jsonwebtoken'
 
 export const loginByEmail = async (
