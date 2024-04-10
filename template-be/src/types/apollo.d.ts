@@ -7,8 +7,8 @@ export type JwtPayload = {
 
 export type ApolloContext = {
   token: Maybe<string>
-  userModel: UserModel
   fileModel: FileModel
+  userModel: UserModel
 }
 
 export type WithoutSystem<T> = Omit<T, keyof System>

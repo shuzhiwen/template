@@ -4,7 +4,7 @@ import {
   useLoginByEmailMutation,
   useSayHelloMutation,
 } from '@/generated'
-import {useToken} from '@/helpers'
+import {useToken, useUploadFiles} from '@/helpers'
 import {Button, Stack, TextField, Typography} from '@mui/material'
 import {noop} from 'lodash-es'
 import {useCallback, useEffect, useState} from 'react'
@@ -24,19 +24,11 @@ export function Entry() {
       setToken(data.loginByEmail.token)
     }
   }, [loginByEmail, setToken])
+  const uploadFiles = useUploadFiles()
   const onChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const formData = new FormData()
-      Array.from(event.target.files ?? []).forEach((file) => {
-        formData.append('files', file, file.name)
-      })
-      fetch('/upload', {
-        method: 'PUT',
-        headers: {authorization: `Token ${token}`},
-        body: formData,
-      })
-    },
-    [token]
+    (event: React.ChangeEvent<HTMLInputElement>) =>
+      uploadFiles(event.target.files ?? []),
+    [uploadFiles]
   )
 
   useEffect(() => {

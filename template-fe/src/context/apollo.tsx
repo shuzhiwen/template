@@ -14,36 +14,40 @@ import {getMainDefinition} from '@apollo/client/utilities'
 import {OperationDefinitionNode} from 'graphql'
 import {createClient} from 'graphql-ws'
 import {PropsWithChildren} from 'react'
-
-const HOST = 'localhost:80'
-
-const GRAPHQL_SERVER = '/graphql'
-
-const httpLink = new HttpLink({uri: GRAPHQL_SERVER})
-
-const errorLink = onError(({graphQLErrors, networkError}) => {
-  if (graphQLErrors || networkError) {
-    console.error(graphQLErrors || networkError)
-  }
-})
+import {GRAPHQL_ROUTE, HTTP_URL, WEBSOCKET_URL} from './constant'
 
 function useClient() {
-  const [token] = useToken()
+  const [token, setToken] = useToken()
+  const httpLink = new HttpLink({
+    uri: GRAPHQL_ROUTE,
+  })
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: `ws://${HOST}${GRAPHQL_SERVER}`,
+      url: WEBSOCKET_URL,
       connectionParams: {
-        authorization: `Token ${token}`,
+        authorization: token,
       },
     })
   )
   const authTokenLink = setContext(({operationName}, context) => {
     return {
-      uri: `http://${HOST}${GRAPHQL_SERVER}/${operationName}`,
+      uri: `${HTTP_URL}/${operationName}`,
       headers: {
         ...context.headers,
-        authorization: `Token ${token}`,
+        authorization: token,
       },
+    }
+  })
+  const errorLink = onError(({graphQLErrors, networkError}) => {
+    if (graphQLErrors || networkError) {
+      console.error(graphQLErrors || networkError)
+      if (
+        graphQLErrors?.some(
+          ({extensions}) => extensions.code === 'AUTHENTICATION_ERROR'
+        )
+      ) {
+        setToken(null)
+      }
     }
   })
   const networkLink = split(
@@ -79,10 +83,8 @@ function useClient() {
 }
 
 export function ApolloProvider(props: PropsWithChildren) {
-  const client = useClient()
-
   return (
-    <RawApolloProvider client={client}>
+    <RawApolloProvider client={useClient()}>
       <>{props.children}</>
     </RawApolloProvider>
   )
