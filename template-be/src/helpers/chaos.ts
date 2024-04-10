@@ -31,7 +31,6 @@ export function transformArgs<T extends object>(args: QueryArgs<T>) {
   const restFilter = removeNullable(filter! ?? {})
   return {
     ...restFilter,
-    search: new RegExp(filter?.search ?? ''),
     pagination: {
       limit: limit ?? undefined,
       skip: offset ?? undefined,

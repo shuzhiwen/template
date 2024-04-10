@@ -25,12 +25,18 @@ export type Scalars = {
   Int: number
   Float: number
   Date: number
+  JSON: any
   Void: undefined
 }
 
 export type AuthInfo = {
   __typename?: 'AuthInfo'
   token: Scalars['String']
+  userId: Scalars['String']
+}
+
+export type ChannelInput = {
+  channelId: Scalars['String']
   userId: Scalars['String']
 }
 
@@ -46,11 +52,22 @@ export type Image = {
 
 export type Mutation = {
   __typename?: 'Mutation'
+  enterChannel: Scalars['Int']
+  exitChannel: Scalars['Int']
   loginByEmail: AuthInfo
   logonByEmail: AuthInfo
   resetPasswordByEmail: Scalars['Boolean']
   sayHello: Scalars['Boolean']
+  sendData: Scalars['Boolean']
   sendEmailVerificationCode?: Maybe<Scalars['Boolean']>
+}
+
+export type MutationEnterChannelArgs = {
+  input: ChannelInput
+}
+
+export type MutationExitChannelArgs = {
+  input: ChannelInput
 }
 
 export type MutationLoginByEmailArgs = {
@@ -74,6 +91,10 @@ export type MutationSayHelloArgs = {
   hello?: InputMaybe<Scalars['String']>
 }
 
+export type MutationSendDataArgs = {
+  input: SendDataInput
+}
+
 export type MutationSendEmailVerificationCodeArgs = {
   email: Scalars['String']
 }
@@ -81,16 +102,48 @@ export type MutationSendEmailVerificationCodeArgs = {
 export type Query = {
   __typename?: 'Query'
   hello: Scalars['String']
+  transportHistory?: Maybe<Array<Transport>>
+  transportUsers: Array<Scalars['String']>
+}
+
+export type QueryTransportHistoryArgs = {
+  channelId: Scalars['String']
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+}
+
+export type QueryTransportUsersArgs = {
+  channelId: Scalars['String']
+}
+
+export type SendDataInput = {
+  channelId: Scalars['String']
+  data: Scalars['JSON']
+  seq: Scalars['Int']
+  serialize?: InputMaybe<Scalars['Boolean']>
+  userId: Scalars['String']
 }
 
 export type Subscription = {
   __typename?: 'Subscription'
   helloWs: Scalars['String']
+  receiveData: Transport
+}
+
+export type SubscriptionReceiveDataArgs = {
+  channelId: Scalars['String']
 }
 
 export type System = {
   createTime: Scalars['Date']
   updateTime: Scalars['Date']
+}
+
+export type Transport = {
+  __typename?: 'Transport'
+  data: Scalars['JSON']
+  seq: Scalars['Int']
+  userId: Scalars['String']
 }
 
 export type WithIndex<TObject> = TObject & Record<string, any>
@@ -205,14 +258,19 @@ export type DirectiveResolverFn<
 export type ResolversTypes = ResolversObject<{
   AuthInfo: ResolverTypeWrapper<AuthInfo>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
+  ChannelInput: ChannelInput
   Date: ResolverTypeWrapper<Scalars['Date']>
   IdInput: IdInput
   Image: ResolverTypeWrapper<Image>
+  Int: ResolverTypeWrapper<Scalars['Int']>
+  JSON: ResolverTypeWrapper<Scalars['JSON']>
   Mutation: ResolverTypeWrapper<{}>
   Query: ResolverTypeWrapper<{}>
+  SendDataInput: SendDataInput
   String: ResolverTypeWrapper<Scalars['String']>
   Subscription: ResolverTypeWrapper<{}>
   System: never
+  Transport: ResolverTypeWrapper<Transport>
   Void: ResolverTypeWrapper<Scalars['Void']>
 }>
 
@@ -220,14 +278,19 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   AuthInfo: AuthInfo
   Boolean: Scalars['Boolean']
+  ChannelInput: ChannelInput
   Date: Scalars['Date']
   IdInput: IdInput
   Image: Image
+  Int: Scalars['Int']
+  JSON: Scalars['JSON']
   Mutation: {}
   Query: {}
+  SendDataInput: SendDataInput
   String: Scalars['String']
   Subscription: {}
   System: never
+  Transport: Transport
   Void: Scalars['Void']
 }>
 
@@ -256,11 +319,28 @@ export type ImageResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
+export interface JsonScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON'
+}
+
 export type MutationResolvers<
   ContextType = ApolloContext,
   ParentType extends
     ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation'],
 > = ResolversObject<{
+  enterChannel?: Resolver<
+    ResolversTypes['Int'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationEnterChannelArgs, 'input'>
+  >
+  exitChannel?: Resolver<
+    ResolversTypes['Int'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationExitChannelArgs, 'input'>
+  >
   loginByEmail?: Resolver<
     ResolversTypes['AuthInfo'],
     ParentType,
@@ -291,6 +371,12 @@ export type MutationResolvers<
     ContextType,
     Partial<MutationSayHelloArgs>
   >
+  sendData?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSendDataArgs, 'input'>
+  >
   sendEmailVerificationCode?: Resolver<
     Maybe<ResolversTypes['Boolean']>,
     ParentType,
@@ -305,6 +391,18 @@ export type QueryResolvers<
     ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
 > = ResolversObject<{
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  transportHistory?: Resolver<
+    Maybe<Array<ResolversTypes['Transport']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTransportHistoryArgs, 'channelId'>
+  >
+  transportUsers?: Resolver<
+    Array<ResolversTypes['String']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTransportUsersArgs, 'channelId'>
+  >
 }>
 
 export type SubscriptionResolvers<
@@ -318,6 +416,13 @@ export type SubscriptionResolvers<
     ParentType,
     ContextType
   >
+  receiveData?: SubscriptionResolver<
+    ResolversTypes['Transport'],
+    'receiveData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionReceiveDataArgs, 'channelId'>
+  >
 }>
 
 export type SystemResolvers<
@@ -330,6 +435,17 @@ export type SystemResolvers<
   updateTime?: Resolver<ResolversTypes['Date'], ParentType, ContextType>
 }>
 
+export type TransportResolvers<
+  ContextType = ApolloContext,
+  ParentType extends
+    ResolversParentTypes['Transport'] = ResolversParentTypes['Transport'],
+> = ResolversObject<{
+  data?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>
+  seq?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}>
+
 export interface VoidScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void'
@@ -339,9 +455,11 @@ export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
   AuthInfo?: AuthInfoResolvers<ContextType>
   Date?: GraphQLScalarType
   Image?: ImageResolvers<ContextType>
+  JSON?: GraphQLScalarType
   Mutation?: MutationResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
   Subscription?: SubscriptionResolvers<ContextType>
   System?: SystemResolvers<ContextType>
+  Transport?: TransportResolvers<ContextType>
   Void?: GraphQLScalarType
 }>

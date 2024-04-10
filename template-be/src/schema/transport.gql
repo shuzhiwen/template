@@ -1,0 +1,35 @@
+scalar JSON
+
+type Transport {
+  userId: String!
+  data: JSON!
+  seq: Int!
+}
+
+input SendDataInput {
+  serialize: Boolean
+  channelId: String!
+  userId: String!
+  data: JSON!
+  seq: Int!
+}
+
+input ChannelInput {
+  channelId: String!
+  userId: String!
+}
+
+type Query {
+  transportUsers(channelId: String!): [String!]!
+  transportHistory(channelId: String!, offset: Int, limit: Int): [Transport!]
+}
+
+type Mutation {
+  sendData(input: SendDataInput!): Boolean!
+  enterChannel(input: ChannelInput!): Int!
+  exitChannel(input: ChannelInput!): Int!
+}
+
+type Subscription {
+  receiveData(channelId: String!): Transport!
+}
