@@ -18,10 +18,11 @@ export function Entry() {
   const {data: helloWs} = useHelloWsSubscription({skip: !token})
   const loginAccount = useCallback(async () => {
     const {data} = await loginByEmail({
-      variables: {email: 'yuwenmiao@qq.com', password: '123456'},
+      variables: {email: 'admin@admin.com', password: 'admin'},
     })
     if (data?.loginByEmail) {
       setToken(data.loginByEmail.token)
+      window.location.reload()
     }
   }, [loginByEmail, setToken])
   const uploadFiles = useUploadFiles()
