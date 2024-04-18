@@ -1,18 +1,24 @@
-import {AuthenticationError} from '@/helpers'
-import {ErrorType} from '@/types'
+import {AuthenticationError, FileSystemError} from '@/helpers/error'
+import {GraphQLError} from 'graphql'
+
+type ErrorType = 'auth' | 'file'
+
+const ErrorDict: Record<ErrorType, typeof GraphQLError> = {
+  auth: AuthenticationError,
+  file: FileSystemError,
+}
 
 export class ModelBase {
   private throwError(error: Error, type?: ErrorType) {
-    switch (type) {
-      case 'auth':
-        throw new AuthenticationError(error.message)
-      default:
-        throw error
+    if (type) {
+      throw new ErrorDict[type](error.message)
+    } else {
+      throw new GraphQLError(error.message)
     }
   }
 
   protected catch<Fn extends AnyAsyncFunction>(fn: Fn, type?: ErrorType) {
-    ;(this as any)[fn.name] = async (...args: unknown[]) => {
+    ;(this as AnyObject)[fn.name] = async (...args: unknown[]) => {
       try {
         return await fn.call(this, ...args)
       } catch (error) {

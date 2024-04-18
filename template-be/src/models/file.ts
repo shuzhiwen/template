@@ -10,11 +10,11 @@ export const fileCache: Map<string, Image> = new Map()
 export class FileModel extends ModelBase {
   constructor() {
     super()
-    this.catch(this.createTempFileByPermName)
-    this.catch(this.createPermFileByTempName)
-    this.catch(this.createTemporaryFile)
-    this.catch(this.createPermanentFile)
-    this.catch(this.requestFile)
+    this.catch(this.createTempFileByPermName, 'file')
+    this.catch(this.createPermFileByTempName, 'file')
+    this.catch(this.createTemporaryFile, 'file')
+    this.catch(this.createPermanentFile, 'file')
+    this.catch(this.requestFile, 'file')
   }
 
   private async createPermFileByTempName(name: string): Promise<IdInput> {

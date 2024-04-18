@@ -1,6 +1,6 @@
 import {QueryArgs} from '@/types'
 import {isNil, sample} from 'lodash'
-import {ObjectId} from 'mongodb'
+import {WithId} from 'mongodb'
 import path from 'path'
 
 export function randomCode(length = 6) {
@@ -14,13 +14,13 @@ export function randomFileName(originalname: string) {
   return randomCode(8) + Date.now() + path.extname(originalname)
 }
 
-export function withId<T extends {_id: ObjectId}>(data: T) {
+export function withId<T>(data: WithId<T>) {
   return {...data, id: data._id.toString()}
 }
 
 export function removeNullable<T extends object>(data: T) {
   return Object.fromEntries(
-    Object.entries(data).filter((_, v) => !isNil(v))
+    Object.entries(data).filter(([, v]) => !isNil(v))
   ) as {
     [key in keyof T]: NonNullable<T[key]>
   }
@@ -28,7 +28,7 @@ export function removeNullable<T extends object>(data: T) {
 
 export function transformArgs<T extends object>(args: QueryArgs<T>) {
   const {limit, offset, filter} = args
-  const restFilter = removeNullable(filter! || {})
+  const restFilter = removeNullable(filter! ?? {})
   return {
     ...restFilter,
     search: new RegExp(filter?.search ?? ''),
